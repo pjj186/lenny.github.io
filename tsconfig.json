@@ -1,0 +1,55 @@
+/* tsconfig.json */
+{
+  "compilerOptions": {
+    /* Language and Environment */
+    "target": "es5",
+    "lib": ["dom", "esnext"],
+    "jsx": "react",
+    /* Modules */
+    "module": "CommonJS",
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["src/*"],
+      "@components/*": ["./components/*"],
+      "@layouts/*": ["src/layouts/*"],
+      "@api/*": ["src/api/*"],
+      "@pages/*": ["src/pages/*"],
+      "@styles/*": ["src/styles/*"],
+      "@utils/*": ["src/utils/*"],
+      "@hooks/*": ["src/hooks/*"],
+      "@images/*": ["src/images/*"],
+      "@types/*": ["src/types/*"],
+      "@templates/*": ["src/templates/*"],
+      "@posts/*": ["content/posts/*"]
+    },
+    "resolveJsonModule": true /* ts 파일에서 json imoprt 허용 */,
+    /* JavaScript Support */
+    "allowJs": true,
+    /* Emit */
+    "declaration": true /* .d.ts 파일 자동생성 */,
+    "removeComments": true /* 컴파일시 주석 제거. */,
+    "noEmit": true /* 컴파일 완료된 결과 파일을 저장할지 여부를 설정하는 옵션 */,
+
+    /* Interop Constraints */
+    "isolatedModules": true /* 각 파일을 모듈화 (import, export)*/,
+    "esModuleInterop": true /* default export가 없는 모듈이라 하더라도 default export가 있는 모듈인 것처럼 default import로 불러와 사용할 수 있도록 컴파일을 한다 */,
+    "forceConsistentCasingInFileNames": true /* 파일명을 대소문자 판별하게 하는 옵션 */,
+    /* Type Checking */
+    "strict": true,
+    "noUnusedLocals": true /* 쓰지않는 지역변수 있으면 에러내기 */,
+    "noUnusedParameters": true /* 쓰지않는 파라미터 있으면 에러내기 */,
+    "noImplicitReturns": true /* 함수에서 return 빼먹으면 에러내기 */,
+    "noFallthroughCasesInSwitch": true /* switch문 이상하면 에러내기  */,
+    "noUncheckedIndexedAccess": true /* index signature에 'undefined' 포함 */,
+    /* Completeness */
+    "skipLibCheck": true /* Skip type checking all .d.ts files. */
+  },
+  "include": [
+    "./src/**/*",
+    "./gatsby-node.ts",
+    "./gatsby-config.ts",
+    "./plugins/**/*",
+    "./src/gatsby-types.d.ts"
+  ],
+  "exclude": ["node_modules", "public", ".cache"]
+}

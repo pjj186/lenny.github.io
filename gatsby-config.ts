@@ -9,20 +9,47 @@
  */
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Starter Blog`,
+    title: `Lenny.dev`,
     author: {
-      name: `Kyle Mathews`,
+      name: `Lenny`,
       summary: `who lives and works in San Francisco building useful things.`,
     },
     description: `A starter blog demonstrating what Gatsby can do.`,
-    siteUrl: `https://gatsbystarterblogsource.gatsbyjs.io/`,
+    siteUrl: `https://lenny.github.io/`,
     social: {
-      twitter: `kylemathews`,
+      twitter: `lenny`,
     },
   },
   plugins: [
     "gatsby-plugin-postcss",
     `gatsby-plugin-image`,
+    {
+      resolve: "gatsby-plugin-alias-imports",
+      options: {
+        alias: {
+          "@src": "src",
+          "@components": "src/components",
+          "@layouts": "src/layouts",
+          "@api": "src/api",
+          "@pages": "src/pages",
+          "@styles": "src/styles",
+          "@utils": "src/utils",
+          "@hooks": "src/hooks",
+          "@images": "src/images",
+          "@types": "src/types",
+          "@templates": "src/templates",
+          "@posts": "content/posts",
+        },
+      },
+    },
+    {
+      resolve: `gatsby-plugin-typescript`,
+      options: {
+        isTSX: true, // defaults to false
+        jsxPragma: `jsx`, // defaults to "React"
+        allExtensions: true, // defaults to false
+      },
+    },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -76,8 +103,12 @@ module.exports = {
         `,
         feeds: [
           {
-            serialize: ({ query: { site, allMarkdownRemark } }) => {
-              return allMarkdownRemark.nodes.map(node => {
+            serialize: ({
+              query: { site, allMarkdownRemark },
+            }: {
+              query: { site: any; allMarkdownRemark: any }
+            }) => {
+              return allMarkdownRemark.nodes.map((node: any) => {
                 return Object.assign({}, node.frontmatter, {
                   description: node.excerpt,
                   date: node.frontmatter.date,

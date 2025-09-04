@@ -1,11 +1,11 @@
 import * as React from "react"
 import { Link, graphql } from "gatsby"
 
-import Bio from "../components/bio"
-import Layout from "../components/layout"
-import Seo from "../components/seo"
+import Bio from "@components/bio"
+import Layout from "@components/layout"
+import Seo from "@components/seo"
 
-const BlogIndex = ({ data, location }) => {
+const BlogIndex = ({ data, location }: { data: any; location: any }) => {
   const siteTitle = data.site.siteMetadata?.title || `Title`
   const posts = data.allMarkdownRemark.nodes
 
@@ -14,9 +14,9 @@ const BlogIndex = ({ data, location }) => {
       <Layout location={location} title={siteTitle}>
         <Bio />
         <p>
-          No blog posts found. Add markdown posts to "content/blog" (or the
-          directory you specified for the "gatsby-source-filesystem" plugin in
-          gatsby-config.js).
+          블로그 포스트를 찾을 수 없습니다. "content/blog"
+          디렉토리(gatsby-config.js에 정의됨)에 하나 이상의 마크다운 파일이
+          있어야 합니다.
         </p>
       </Layout>
     )
@@ -26,7 +26,7 @@ const BlogIndex = ({ data, location }) => {
     <Layout location={location} title={siteTitle}>
       <Bio />
       <ol style={{ listStyle: `none` }}>
-        {posts.map(post => {
+        {posts.map((post: any) => {
           const title = post.frontmatter.title || post.fields.slug
 
           return (
@@ -68,7 +68,7 @@ export default BlogIndex
  *
  * See: https://www.gatsbyjs.com/docs/reference/built-in-components/gatsby-head/
  */
-export const Head = () => <Seo title="All posts" />
+export const Head = () => <Seo title="모든 포스트" />
 
 export const pageQuery = graphql`
   {
