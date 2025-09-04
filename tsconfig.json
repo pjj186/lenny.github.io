@@ -7,20 +7,9 @@
     "jsx": "react",
     /* Modules */
     "module": "CommonJS",
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@components/*": ["./components/*"],
-      "@layouts/*": ["src/layouts/*"],
-      "@api/*": ["src/api/*"],
-      "@pages/*": ["src/pages/*"],
-      "@styles/*": ["src/styles/*"],
-      "@utils/*": ["src/utils/*"],
-      "@hooks/*": ["src/hooks/*"],
-      "@images/*": ["src/images/*"],
-      "@types/*": ["src/types/*"],
-      "@templates/*": ["src/templates/*"],
-      "@posts/*": ["content/posts/*"]
+      "@/*": ["./src/*"]
     },
     "resolveJsonModule": true /* ts 파일에서 json imoprt 허용 */,
     /* JavaScript Support */

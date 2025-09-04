@@ -10,7 +10,10 @@
   "dependencies": {
     "@fontsource-variable/montserrat": "^5.0.17",
     "@fontsource/merriweather": "^5.0.8",
+    "@radix-ui/react-slot": "^1.2.3",
     "@tailwindcss/postcss": "^4.1.12",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "gatsby": "^5.14.6",
     "gatsby-plugin-alias-imports": "^1.0.5",
     "gatsby-plugin-feed": "^5.14.0",
@@ -25,10 +28,12 @@
     "gatsby-source-filesystem": "^5.14.0",
     "gatsby-transformer-remark": "^6.14.0",
     "gatsby-transformer-sharp": "^5.14.0",
+    "lucide-react": "^0.542.0",
     "postcss": "^8.5.6",
     "prismjs": "^1.29.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.12"
   },
   "devDependencies": {
@@ -36,6 +41,7 @@
     "@types/react": "^19.1.12",
     "@types/react-dom": "^19.1.9",
     "prettier": "^2.8.8",
+    "tw-animate-css": "^1.3.8",
     "typescript": "^5.9.2"
   },
   "homepage": "https://github.com/gatsbyjs/gatsby-starter-blog#readme",
