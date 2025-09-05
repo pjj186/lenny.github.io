@@ -7,8 +7,10 @@
 const path = require(`path`)
 const { createFilePath } = require(`gatsby-source-filesystem`)
 
-// 블로그 포스트를 위한 템플릿 정의
+// 템플릿 정의
 const blogPost = path.resolve(`./src/templates/blog-post.tsx`)
+const categoryTemplate = path.resolve(`./src/templates/category.tsx`)
+const tagTemplate = path.resolve(`./src/templates/tag.tsx`)
 
 /**
  * @type {import('gatsby').GatsbyNode['createPages']}
@@ -16,14 +18,19 @@ const blogPost = path.resolve(`./src/templates/blog-post.tsx`)
 exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions
 
-  // 날짜순으로 정렬된 모든 마크다운 블로그 포스트를 가져옵니다
+  // 모든 마크다운 블로그 포스트와 메타데이터를 가져옵니다
   const result = await graphql(`
     {
-      allMarkdownRemark(sort: { frontmatter: { date: ASC } }, limit: 1000) {
+      allMarkdownRemark(sort: { frontmatter: { date: DESC } }, limit: 1000) {
         nodes {
           id
           fields {
             slug
+          }
+          frontmatter {
+            category
+            tags
+            title
           }
         }
       }
@@ -39,15 +46,14 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   }
 
   const posts = result.data.allMarkdownRemark.nodes
+  console.log(`총 ${posts.length}개의 포스트를 찾았습니다.`)
 
-  // 블로그 포스트 페이지 생성
-  // 단, "content/blog" 디렉토리(gatsby-config.js에 정의됨)에 하나 이상의 마크다운 파일이 있어야 합니다
-  // `context`는 템플릿에서 prop으로 사용할 수 있고, GraphQL에서 변수로도 사용 가능합니다
-
+  // 1. 개별 블로그 포스트 페이지 생성
   if (posts.length > 0) {
     posts.forEach((post, index) => {
-      const previousPostId = index === 0 ? null : posts[index - 1].id
-      const nextPostId = index === posts.length - 1 ? null : posts[index + 1].id
+      const previousPostId =
+        index === posts.length - 1 ? null : posts[index + 1].id
+      const nextPostId = index === 0 ? null : posts[index - 1].id
 
       createPage({
         path: post.fields.slug,
@@ -59,6 +65,100 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         },
       })
     })
+    console.log(`${posts.length}개의 블로그 포스트 페이지를 생성했습니다.`)
+
+    // 2. 카테고리 수집 및 페이지 생성
+    const categories = new Set()
+    const tags = new Set()
+
+    posts.forEach(post => {
+      if (post.frontmatter.category) {
+        categories.add(post.frontmatter.category)
+      }
+      if (post.frontmatter.tags && Array.isArray(post.frontmatter.tags)) {
+        post.frontmatter.tags.forEach(tag => tags.add(tag))
+      }
+    })
+
+    console.log(`찾은 카테고리들:`, Array.from(categories))
+    console.log(`찾은 태그들:`, Array.from(tags))
+
+    const postsPerPage = 5 // 페이지당 포스트 수
+
+    // 3. 카테고리별 페이지 생성
+    if (categories.size > 0) {
+      Array.from(categories).forEach(category => {
+        const categoryPosts = posts.filter(
+          post => post.frontmatter.category === category
+        )
+        const totalPages = Math.ceil(categoryPosts.length / postsPerPage)
+
+        console.log(
+          `카테고리 "${category}": ${categoryPosts.length}개 포스트, ${totalPages}페이지`
+        )
+
+        for (let i = 0; i < totalPages; i++) {
+          const currentPage = i + 1
+          const pathPrefix = `/category/${category
+            .toLowerCase()
+            .replace(/\s+/g, "-")}`
+          const pagePath =
+            currentPage === 1 ? pathPrefix : `${pathPrefix}/${currentPage}`
+
+          console.log(`카테고리 페이지 생성: ${pagePath}`)
+
+          createPage({
+            path: pagePath,
+            component: categoryTemplate,
+            context: {
+              category,
+              currentPage,
+              totalPages,
+              limit: postsPerPage,
+              skip: i * postsPerPage,
+            },
+          })
+        }
+      })
+    }
+
+    // 4. 태그별 페이지 생성
+    if (tags.size > 0) {
+      Array.from(tags).forEach(tag => {
+        const tagPosts = posts.filter(
+          post => post.frontmatter.tags && post.frontmatter.tags.includes(tag)
+        )
+        const totalPages = Math.ceil(tagPosts.length / postsPerPage)
+
+        console.log(
+          `태그 "#${tag}": ${tagPosts.length}개 포스트, ${totalPages}페이지`
+        )
+
+        for (let i = 0; i < totalPages; i++) {
+          const currentPage = i + 1
+          const pathPrefix = `/tag/${tag
+            .toLowerCase()
+            .replace(/\s+/g, "-")
+            .replace(/[^a-z0-9가-힣-]/g, "")}`
+          const pagePath =
+            currentPage === 1 ? pathPrefix : `${pathPrefix}/${currentPage}`
+
+          console.log(`태그 페이지 생성: ${pagePath}`)
+
+          createPage({
+            path: pagePath,
+            component: tagTemplate,
+            context: {
+              tag,
+              currentPage,
+              totalPages,
+              limit: postsPerPage,
+              skip: i * postsPerPage,
+            },
+          })
+        }
+      })
+    }
   }
 }
 
@@ -116,6 +216,8 @@ exports.createSchemaCustomization = ({ actions }) => {
       title: String
       description: String
       date: Date @dateformat
+      category: String
+      tags: [String]
     }
 
     type Fields {

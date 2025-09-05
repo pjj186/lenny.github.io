@@ -3,6 +3,8 @@ title: Hello World
 date: "2015-05-01T22:12:03.284Z"
 description: "나의 첫 번째 블로그 포스트입니다! 앞으로 더 흥미로운 글들을 많이 써보겠습니다."
 thumbnail: "./salty_egg.jpg"
+category: "Tutorial"
+tags: ["첫 포스트", "시작", "블로그"]
 ---
 
 This is my first post on my new fake blog! How exciting!

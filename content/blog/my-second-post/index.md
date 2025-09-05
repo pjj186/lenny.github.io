@@ -3,6 +3,8 @@ title: My Second Post!
 date: "2015-05-06T23:46:37.121Z"
 description: "블로깅이 정말 즐겁습니다! 오리알에 대한 흥미로운 사실들을 알아보세요."
 thumbnail: "../hello-world/salty_egg.jpg"
+category: "Food"
+tags: ["음식", "오리알", "지식"]
 ---
 
 Wow! I love blogging so much already.

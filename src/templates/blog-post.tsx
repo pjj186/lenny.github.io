@@ -4,6 +4,7 @@ import { Link, graphql } from "gatsby"
 import Bio from "@/components/bio"
 import Layout from "@/components/layout"
 import Seo from "@/components/seo"
+import CategoryTag from "@/components/category-tag"
 import { Button } from "@/components/ui/button"
 import { ChevronLeft, ChevronRight, Calendar } from "lucide-react"
 
@@ -31,9 +32,20 @@ const BlogPostTemplate = ({
               {post.frontmatter.title}
             </h1>
 
-            <div className="flex items-center space-x-2 text-muted-foreground">
-              <Calendar className="w-4 h-4" />
-              <time className="text-sm">{post.frontmatter.date}</time>
+            <div className="flex items-center space-x-4 text-muted-foreground">
+              <div className="flex items-center space-x-2">
+                <Calendar className="w-4 h-4" />
+                <time className="text-sm">{post.frontmatter.date}</time>
+              </div>
+            </div>
+
+            {/* 카테고리와 태그 */}
+            <div className="pt-2">
+              <CategoryTag
+                category={post.frontmatter.category}
+                tags={post.frontmatter.tags}
+                showLinks={true}
+              />
             </div>
           </div>
         </header>
@@ -139,6 +151,8 @@ export const pageQuery = graphql`
         title
         date(formatString: "YYYY년 MM월 DD일")
         description
+        category
+        tags
       }
     }
     previous: markdownRemark(id: { eq: $previousPostId }) {

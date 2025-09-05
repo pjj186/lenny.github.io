@@ -5,6 +5,8 @@ import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import Bio from "@/components/bio"
 import Layout from "@/components/layout"
 import Seo from "@/components/seo"
+import CategoryTag from "@/components/category-tag"
+import CategoryFilter from "@/components/category-filter"
 
 const BlogIndex = ({ data, location }: { data: any; location: any }) => {
   const siteTitle = data.site.siteMetadata?.title || `Title`
@@ -26,6 +28,9 @@ const BlogIndex = ({ data, location }: { data: any; location: any }) => {
   return (
     <Layout location={location} title={siteTitle}>
       <Bio />
+
+      {/* 카테고리 필터 */}
+      <CategoryFilter />
 
       <div className="space-y-8">
         {posts.map((post: any) => {
@@ -72,6 +77,15 @@ const BlogIndex = ({ data, location }: { data: any; location: any }) => {
                           {post.frontmatter.date}
                         </time>
                       </header>
+
+                      {/* 카테고리와 태그 */}
+                      <div className="mb-3">
+                        <CategoryTag
+                          category={post.frontmatter.category}
+                          tags={post.frontmatter.tags}
+                          showLinks={true}
+                        />
+                      </div>
 
                       <section>
                         <p
@@ -126,6 +140,8 @@ export const pageQuery = graphql`
           date(formatString: "MMMM DD, YYYY")
           title
           description
+          category
+          tags
           thumbnail {
             childImageSharp {
               gatsbyImageData(
