@@ -8,6 +8,7 @@
 import * as React from "react"
 import { useStaticQuery, graphql } from "gatsby"
 import { StaticImage } from "gatsby-plugin-image"
+import GitHubIcon from "@mui/icons-material/GitHub"
 
 const Bio = () => {
   const data = useStaticQuery(graphql`
@@ -19,7 +20,7 @@ const Bio = () => {
             summary
           }
           social {
-            twitter
+            github
           }
         }
       }
@@ -31,25 +32,53 @@ const Bio = () => {
   const social = data.site.siteMetadata?.social
 
   return (
-    <div>
-      <StaticImage
-        layout="fixed"
-        formats={["auto", "webp", "avif"]}
-        src="../images/profile-pic.png"
-        width={50}
-        height={50}
-        quality={95}
-        alt="Profile picture"
-      />
-      {author?.name && (
-        <p>
-          Written by <strong>{author.name}</strong> {author?.summary || null}
-          {` `}
-          <a href={`https://twitter.com/${social?.twitter || ``}`}>
-            You should follow them on Twitter
-          </a>
-        </p>
-      )}
+    <div className="bg-card border rounded-lg p-6 mb-8 shadow-sm">
+      <div className="flex items-start space-x-4">
+        {/* 프로필 이미지 */}
+        <div className="flex-shrink-0">
+          <StaticImage
+            className="rounded-full border-2 border-border"
+            layout="fixed"
+            formats={["auto", "webp", "avif"]}
+            src="../images/profile-pic.jpg"
+            width={64}
+            height={64}
+            quality={95}
+            alt="Profile picture"
+          />
+        </div>
+
+        {/* 텍스트 콘텐츠 */}
+        <div className="flex-1 min-w-0">
+          {author?.name && (
+            <div className="space-y-3">
+              <div>
+                <h3 className="text-lg font-semibold text-foreground">
+                  {author.name}
+                </h3>
+                <p className="text-muted-foreground text-sm leading-relaxed mt-1 whitespace-pre-line">
+                  {author?.summary || null}
+                </p>
+              </div>
+
+              {/* 소셜 링크 */}
+              {social?.github && (
+                <div className="flex items-center space-x-2">
+                  <a
+                    href={`https://github.com/${social.github}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center px-3 py-1.5 text-xs font-medium text-primary bg-primary/10 hover:bg-primary/20 rounded-full transition-colors duration-200"
+                  >
+                    <GitHubIcon className="mr-1" fontSize="small" />
+                    Github
+                  </a>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   )
 }
