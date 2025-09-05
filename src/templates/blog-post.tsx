@@ -5,6 +5,7 @@ import Bio from "@/components/bio"
 import Layout from "@/components/layout"
 import Seo from "@/components/seo"
 import { Button } from "@/components/ui/button"
+import { ChevronLeft, ChevronRight, Calendar } from "lucide-react"
 
 const BlogPostTemplate = ({
   data: { previous, next, site, markdownRemark: post },
@@ -14,45 +15,95 @@ const BlogPostTemplate = ({
 
   return (
     <Layout location={location} title={siteTitle}>
-      <article itemScope itemType="http://schema.org/Article">
-        <header>
-          <h1 itemProp="headline">{post.frontmatter.title}</h1>
-          <p>{post.frontmatter.date}</p>
+      {/* 메인 아티클 */}
+      <article
+        className="max-w-none"
+        itemScope
+        itemType="http://schema.org/Article"
+      >
+        {/* 헤더 섹션 */}
+        <header className="mb-12">
+          <div className="space-y-4">
+            <h1
+              className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight tracking-tight"
+              itemProp="headline"
+            >
+              {post.frontmatter.title}
+            </h1>
+
+            <div className="flex items-center space-x-2 text-muted-foreground">
+              <Calendar className="w-4 h-4" />
+              <time className="text-sm">{post.frontmatter.date}</time>
+            </div>
+          </div>
         </header>
+
+        {/* 본문 내용 */}
         <section
+          className="markdown-content max-w-none"
           dangerouslySetInnerHTML={{ __html: post.html }}
           itemProp="articleBody"
         />
-        <hr />
-        <footer>
+
+        {/* Bio 섹션 */}
+        <div className="mt-16 pt-8 border-t">
           <Bio />
-        </footer>
+        </div>
       </article>
-      <nav>
-        <ul
-          style={{
-            display: `flex`,
-            flexWrap: `wrap`,
-            justifyContent: `space-between`,
-            listStyle: `none`,
-            padding: 0,
-          }}
-        >
-          <li>
+
+      {/* 이전/다음 포스트 네비게이션 */}
+      <nav className="mt-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* 이전 포스트 */}
+          <div className="md:justify-self-start">
             {previous && (
-              <Link to={previous.fields.slug} rel="prev">
-                ← {previous.frontmatter.title}
+              <Link
+                to={previous.fields.slug}
+                rel="prev"
+                className="group block"
+              >
+                <div className="bg-card hover:bg-card/80 border rounded-lg p-6 transition-colors duration-200">
+                  <div className="flex items-start space-x-3">
+                    <div className="flex-shrink-0 p-2 bg-muted rounded-full group-hover:bg-muted/80 transition-colors">
+                      <ChevronLeft className="w-4 h-4" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm text-muted-foreground mb-1">
+                        이전 포스트
+                      </p>
+                      <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2">
+                        {previous.frontmatter.title}
+                      </h3>
+                    </div>
+                  </div>
+                </div>
               </Link>
             )}
-          </li>
-          <li>
+          </div>
+
+          {/* 다음 포스트 */}
+          <div className="md:justify-self-end">
             {next && (
-              <Link to={next.fields.slug} rel="next">
-                {next.frontmatter.title} →
+              <Link to={next.fields.slug} rel="next" className="group block">
+                <div className="bg-card hover:bg-card/80 border rounded-lg p-6 transition-colors duration-200">
+                  <div className="flex items-start space-x-3">
+                    <div className="flex-1 min-w-0 text-right">
+                      <p className="text-sm text-muted-foreground mb-1">
+                        다음 포스트
+                      </p>
+                      <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2">
+                        {next.frontmatter.title}
+                      </h3>
+                    </div>
+                    <div className="flex-shrink-0 p-2 bg-muted rounded-full group-hover:bg-muted/80 transition-colors">
+                      <ChevronRight className="w-4 h-4" />
+                    </div>
+                  </div>
+                </div>
               </Link>
             )}
-          </li>
-        </ul>
+          </div>
+        </div>
       </nav>
     </Layout>
   )
@@ -86,7 +137,7 @@ export const pageQuery = graphql`
       html
       frontmatter {
         title
-        date(formatString: "MMMM DD, YYYY")
+        date(formatString: "YYYY년 MM월 DD일")
         description
       }
     }
