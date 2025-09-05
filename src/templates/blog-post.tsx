@@ -14,11 +14,7 @@ const BlogPostTemplate = ({
 
   return (
     <Layout location={location} title={siteTitle}>
-      <article
-        className="blog-post"
-        itemScope
-        itemType="http://schema.org/Article"
-      >
+      <article itemScope itemType="http://schema.org/Article">
         <header>
           <h1 itemProp="headline">{post.frontmatter.title}</h1>
           <p>{post.frontmatter.date}</p>
@@ -32,7 +28,7 @@ const BlogPostTemplate = ({
           <Bio />
         </footer>
       </article>
-      <nav className="blog-post-nav">
+      <nav>
         <ul
           style={{
             display: `flex`,
