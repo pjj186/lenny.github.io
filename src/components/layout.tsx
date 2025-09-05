@@ -51,15 +51,7 @@ const Layout = ({
       <footer className="mt-auto border-t bg-muted/50">
         <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <p className="text-sm text-muted-foreground text-center">
-            © {new Date().getFullYear()}, Built with{" "}
-            <a
-              href="https://www.gatsbyjs.com"
-              className="underline hover:text-foreground transition-colors"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Gatsby
-            </a>
+            Keep Going
           </p>
         </div>
       </footer>

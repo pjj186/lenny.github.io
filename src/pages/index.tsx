@@ -1,5 +1,6 @@
 import * as React from "react"
 import { Link, graphql } from "gatsby"
+import { GatsbyImage, getImage } from "gatsby-plugin-image"
 
 import Bio from "@/components/bio"
 import Layout from "@/components/layout"
@@ -25,38 +26,76 @@ const BlogIndex = ({ data, location }: { data: any; location: any }) => {
   return (
     <Layout location={location} title={siteTitle}>
       <Bio />
-      <ol style={{ listStyle: `none` }}>
+
+      <div className="space-y-8">
         {posts.map((post: any) => {
           const title = post.frontmatter.title || post.fields.slug
+          const thumbnail = getImage(post.frontmatter.thumbnail)
 
           return (
-            <li key={post.fields.slug}>
-              <article
-                className="post-list-item"
-                itemScope
-                itemType="http://schema.org/Article"
-              >
-                <header>
-                  <h2>
-                    <Link to={post.fields.slug} itemProp="url">
-                      <span itemProp="headline">{title}</span>
-                    </Link>
-                  </h2>
-                  <small>{post.frontmatter.date}</small>
-                </header>
-                <section>
-                  <p
-                    dangerouslySetInnerHTML={{
-                      __html: post.frontmatter.description || post.excerpt,
-                    }}
-                    itemProp="description"
-                  />
-                </section>
-              </article>
-            </li>
+            <article
+              key={post.fields.slug}
+              className="group bg-card hover:bg-card/80 border rounded-lg shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden"
+              itemScope
+              itemType="http://schema.org/Article"
+            >
+              <Link to={post.fields.slug} className="block">
+                <div className="flex flex-col md:flex-row">
+                  {/* 썸네일 이미지 */}
+                  <div className="md:w-80 w-full h-48 md:h-auto flex-shrink-0 overflow-hidden">
+                    {thumbnail ? (
+                      <GatsbyImage
+                        image={thumbnail}
+                        alt={title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-muted flex items-center justify-center">
+                        <span className="text-muted-foreground text-sm">
+                          No Image
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* 콘텐츠 영역 */}
+                  <div className="flex-1 p-6 flex flex-col justify-between">
+                    <div>
+                      <header className="mb-3">
+                        <h2
+                          className="text-xl md:text-2xl font-bold text-foreground group-hover:text-primary transition-colors line-clamp-2"
+                          itemProp="headline"
+                        >
+                          {title}
+                        </h2>
+                        <time className="text-sm text-muted-foreground mt-1 block">
+                          {post.frontmatter.date}
+                        </time>
+                      </header>
+
+                      <section>
+                        <p
+                          className="text-muted-foreground leading-relaxed line-clamp-3"
+                          itemProp="description"
+                        >
+                          {post.frontmatter.description ||
+                            post.excerpt.replace(/<[^>]*>/g, "")}
+                        </p>
+                      </section>
+                    </div>
+
+                    <div className="mt-4">
+                      <span className="text-primary text-sm font-medium group-hover:underline">
+                        자세히 읽기 →
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </article>
           )
         })}
-      </ol>
+      </div>
     </Layout>
   )
 }
@@ -87,6 +126,16 @@ export const pageQuery = graphql`
           date(formatString: "MMMM DD, YYYY")
           title
           description
+          thumbnail {
+            childImageSharp {
+              gatsbyImageData(
+                width: 300
+                height: 200
+                placeholder: BLURRED
+                formats: [AUTO, WEBP, AVIF]
+              )
+            }
+          }
         }
       }
     }

@@ -1,7 +1,8 @@
 ---
 title: New Beginnings
 date: "2015-05-28T22:40:32.169Z"
-description: This is a custom description for SEO and Open Graph purposes, rather than the default generated excerpt. Simply add a description field to the frontmatter.
+description: "새로운 시작에 대한 이야기입니다. 단어들의 산 너머에서 펼쳐지는 흥미진진한 여행을 함께해보세요."
+thumbnail: "../hello-world/salty_egg.jpg"
 ---
 
 Far far away, behind the word mountains, far from the countries Vokalia and
