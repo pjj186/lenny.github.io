@@ -265,6 +265,15 @@
   @apply bg-muted/30;
 }
 
+/* Utterances 댓글 스타일링 */
+.utterances-container {
+  @apply max-w-none;
+}
+
+.utterances {
+  @apply max-w-none;
+}
+
 /* 다크 모드 스타일 */
 .dark .markdown-content {
   @apply text-foreground;

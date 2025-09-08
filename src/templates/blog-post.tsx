@@ -6,6 +6,7 @@ import Layout from "@/components/layout"
 import Seo from "@/components/seo"
 import CategoryTag from "@/components/category-tag"
 import { ChevronLeft, ChevronRight, Calendar } from "lucide-react"
+import Utterances from "@/components/utterances"
 
 interface BlogPostTemplateProps {
   data: {
@@ -112,6 +113,9 @@ const BlogPostTemplate: React.FC<BlogPostTemplateProps> = ({
         <div className="mt-16 pt-8 border-t">
           <Bio />
         </div>
+
+        {/* 댓글 */}
+        <Utterances />
 
         {/* 이전/다음 포스트 네비게이션 */}
         <nav className="mt-16">
