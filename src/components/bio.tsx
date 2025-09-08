@@ -38,13 +38,13 @@ const Bio = () => {
         <div className="flex-shrink-0">
           <StaticImage
             className="rounded-full border-2 border-border"
-            layout="fixed"
-            formats={["auto", "webp", "avif"]}
             src="../images/profile-pic.jpeg"
             width={64}
             height={64}
             quality={95}
             alt="Profile picture"
+            placeholder="blurred"
+            formats={["auto", "webp"]}
           />
         </div>
 
