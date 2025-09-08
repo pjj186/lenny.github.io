@@ -9,3 +9,14 @@ import "./src/style.css"
 
 // Highlighting for code blocks
 import "prismjs/themes/prism.css"
+
+import React from "react"
+import { ThemeProvider } from "./src/components/theme-provider"
+
+export const wrapRootElement = ({ element }) => {
+  return (
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      {element}
+    </ThemeProvider>
+  )
+}

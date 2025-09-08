@@ -27,11 +27,23 @@ export function ThemeProvider({
   storageKey = "vite-ui-theme",
   ...props
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
-  )
+  const [theme, setThemeState] = useState<Theme>(defaultTheme)
+
+  // 클라이언트에서만 localStorage에서 테마를 로드
+  useEffect(() => {
+    const isBrowser = typeof window !== "undefined"
+    if (isBrowser) {
+      const savedTheme = localStorage.getItem(storageKey) as Theme
+      if (savedTheme && savedTheme !== theme) {
+        setThemeState(savedTheme)
+      }
+    }
+  }, [storageKey])
 
   useEffect(() => {
+    const isBrowser = typeof window !== "undefined"
+    if (!isBrowser) return
+
     const root = window.document.documentElement
 
     root.classList.remove("light", "dark")
@@ -49,12 +61,17 @@ export function ThemeProvider({
     root.classList.add(theme)
   }, [theme])
 
+  const setTheme = (newTheme: Theme) => {
+    const isBrowser = typeof window !== "undefined"
+    if (isBrowser) {
+      localStorage.setItem(storageKey, newTheme)
+    }
+    setThemeState(newTheme)
+  }
+
   const value = {
     theme,
-    setTheme: (theme: Theme) => {
-      localStorage.setItem(storageKey, theme)
-      setTheme(theme)
-    },
+    setTheme,
   }
 
   return (
