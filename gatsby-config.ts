@@ -21,8 +21,10 @@ module.exports = {
     },
   },
   plugins: [
-    "gatsby-plugin-postcss",
     `gatsby-plugin-image`,
+    `gatsby-plugin-sharp`,
+    `gatsby-transformer-sharp`,
+    "gatsby-plugin-postcss",
     {
       resolve: "gatsby-plugin-alias-imports",
       options: {
@@ -71,7 +73,13 @@ module.exports = {
           {
             resolve: `gatsby-remark-images`,
             options: {
-              maxWidth: 630,
+              maxWidth: 800,
+              quality: 90,
+              showCaptions: true,
+              markdownCaptions: true,
+              backgroundColor: "transparent",
+              linkImagesToOriginal: false,
+              withWebp: true,
             },
           },
           {
@@ -84,8 +92,6 @@ module.exports = {
         ],
       },
     },
-    `gatsby-transformer-sharp`,
-    `gatsby-plugin-sharp`,
     {
       resolve: `gatsby-plugin-feed`,
       options: {

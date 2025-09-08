@@ -218,8 +218,51 @@
   @apply rounded-lg shadow-md my-6 max-w-full h-auto;
 }
 
+/* gatsby-remark-images 스타일링 */
+.markdown-content .gatsby-resp-image-wrapper {
+  @apply my-6 mx-auto;
+  max-width: 100% !important;
+}
+
+.markdown-content .gatsby-resp-image-image {
+  @apply rounded-lg shadow-md;
+  width: 100% !important;
+  height: auto !important;
+}
+
+.markdown-content .gatsby-resp-image-background-image {
+  @apply rounded-lg;
+}
+
+.markdown-content .gatsby-resp-image-link {
+  @apply block;
+}
+
+/* 일반 img 태그도 지원 */
+.markdown-content img:not(.gatsby-resp-image-image) {
+  @apply rounded-lg shadow-md my-6 max-w-full h-auto mx-auto block;
+}
+
 .markdown-content hr {
   @apply border-t border-border my-8;
+}
+
+/* 테이블 스타일링 */
+.markdown-content table {
+  @apply w-full border-collapse border border-border my-6;
+}
+
+.markdown-content th,
+.markdown-content td {
+  @apply border border-border px-4 py-2 text-left;
+}
+
+.markdown-content th {
+  @apply bg-muted font-semibold;
+}
+
+.markdown-content tbody tr:nth-child(even) {
+  @apply bg-muted/30;
 }
 
 /* 다크 모드 스타일 */
