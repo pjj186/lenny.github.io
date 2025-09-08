@@ -15,7 +15,11 @@ const tagTemplate = path.resolve(`./src/templates/tag.tsx`)
 /**
  * @type {import('gatsby').GatsbyNode['createPages']}
  */
-exports.createPages = async ({ graphql, actions, reporter }) => {
+exports.createPages = async ({
+  graphql,
+  actions,
+  reporter,
+}: import("gatsby").CreatePagesArgs) => {
   const { createPage } = actions
 
   // 모든 마크다운 블로그 포스트와 메타데이터를 가져옵니다
@@ -45,12 +49,12 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     return
   }
 
-  const posts = result.data.allMarkdownRemark.nodes
+  const posts = (result.data as any)?.allMarkdownRemark?.nodes || []
   console.log(`총 ${posts.length}개의 포스트를 찾았습니다.`)
 
   // 1. 개별 블로그 포스트 페이지 생성
   if (posts.length > 0) {
-    posts.forEach((post, index) => {
+    posts.forEach((post: any, index: number) => {
       const previousPostId =
         index === posts.length - 1 ? null : posts[index + 1].id
       const nextPostId = index === 0 ? null : posts[index - 1].id
@@ -71,12 +75,12 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     const categories = new Set()
     const tags = new Set()
 
-    posts.forEach(post => {
+    posts.forEach((post: any) => {
       if (post.frontmatter.category) {
         categories.add(post.frontmatter.category)
       }
       if (post.frontmatter.tags && Array.isArray(post.frontmatter.tags)) {
-        post.frontmatter.tags.forEach(tag => tags.add(tag))
+        post.frontmatter.tags.forEach((tag: string) => tags.add(tag))
       }
     })
 
@@ -87,9 +91,10 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
     // 3. 카테고리별 페이지 생성
     if (categories.size > 0) {
-      Array.from(categories).forEach(category => {
+      Array.from(categories).forEach((category: unknown) => {
+        const categoryString = category as string
         const categoryPosts = posts.filter(
-          post => post.frontmatter.category === category
+          (post: any) => post.frontmatter.category === categoryString
         )
         const totalPages = Math.ceil(categoryPosts.length / postsPerPage)
 
@@ -99,7 +104,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
         for (let i = 0; i < totalPages; i++) {
           const currentPage = i + 1
-          const pathPrefix = `/category/${category
+          const pathPrefix = `/category/${categoryString
             .toLowerCase()
             .replace(/\s+/g, "-")}`
           const pagePath =
@@ -111,7 +116,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             path: pagePath,
             component: categoryTemplate,
             context: {
-              category,
+              category: categoryString,
               currentPage,
               totalPages,
               limit: postsPerPage,
@@ -124,9 +129,11 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
     // 4. 태그별 페이지 생성
     if (tags.size > 0) {
-      Array.from(tags).forEach(tag => {
+      Array.from(tags).forEach((tag: unknown) => {
+        const tagString = tag as string
         const tagPosts = posts.filter(
-          post => post.frontmatter.tags && post.frontmatter.tags.includes(tag)
+          (post: any) =>
+            post.frontmatter.tags && post.frontmatter.tags.includes(tagString)
         )
         const totalPages = Math.ceil(tagPosts.length / postsPerPage)
 
@@ -136,7 +143,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
         for (let i = 0; i < totalPages; i++) {
           const currentPage = i + 1
-          const pathPrefix = `/tag/${tag
+          const pathPrefix = `/tag/${tagString
             .toLowerCase()
             .replace(/\s+/g, "-")
             .replace(/[^a-z0-9가-힣-]/g, "")}`
@@ -149,7 +156,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             path: pagePath,
             component: tagTemplate,
             context: {
-              tag,
+              tag: tagString,
               currentPage,
               totalPages,
               limit: postsPerPage,
@@ -165,24 +172,55 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 /**
  * @type {import('gatsby').GatsbyNode['onCreateNode']}
  */
-exports.onCreateNode = ({ node, actions, getNode }) => {
+exports.onCreateNode = ({
+  node,
+  actions,
+  getNode,
+}: import("gatsby").CreateNodeArgs) => {
   const { createNodeField } = actions
 
   if (node.internal.type === `MarkdownRemark`) {
     const value = createFilePath({ node, getNode })
+    const fileNode = getNode(node.parent as string)
 
     createNodeField({
       name: `slug`,
       node,
       value,
     })
+
+    // frontmatter에 date가 없으면 파일 생성 시간을 사용
+    if (!(node.frontmatter as any)?.date && fileNode) {
+      const birthTime =
+        (fileNode as any)?.birthTime || (fileNode as any)?.ctime || new Date()
+
+      // 한국 시간대로 조정 (UTC+9)
+      const dateObj = new Date(birthTime as string | number | Date)
+      // 로컬 시간으로 포맷팅 (YYYY-MM-DD)
+      const year = dateObj.getFullYear()
+      const month = String(dateObj.getMonth() + 1).padStart(2, "0")
+      const day = String(dateObj.getDate()).padStart(2, "0")
+      const formattedDate = `${year}-${month}-${day}`
+
+      console.log(
+        `자동 날짜 생성: ${node.id} -> ${formattedDate} (원본: ${birthTime})`
+      )
+
+      createNodeField({
+        name: `autoDate`,
+        node,
+        value: formattedDate,
+      })
+    }
   }
 }
 
 /**
  * @type {import('gatsby').GatsbyNode['createSchemaCustomization']}
  */
-exports.createSchemaCustomization = ({ actions }) => {
+exports.createSchemaCustomization = ({
+  actions,
+}: import("gatsby").CreateSchemaCustomizationArgs) => {
   const { createTypes } = actions
 
   // siteMetadata {} 객체를 명시적으로 정의합니다
@@ -222,11 +260,14 @@ exports.createSchemaCustomization = ({ actions }) => {
 
     type Fields {
       slug: String
+      autoDate: String
     }
   `)
 }
 
-exports.onCreateWebpackConfig = ({ actions }) => {
+exports.onCreateWebpackConfig = ({
+  actions,
+}: import("gatsby").CreateWebpackConfigArgs) => {
   actions.setWebpackConfig({
     resolve: {
       alias: {

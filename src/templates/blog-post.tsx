@@ -5,10 +5,54 @@ import Bio from "@/components/bio"
 import Layout from "@/components/layout"
 import Seo from "@/components/seo"
 import CategoryTag from "@/components/category-tag"
-import { Button } from "@/components/ui/button"
 import { ChevronLeft, ChevronRight, Calendar } from "lucide-react"
 
-const BlogPostTemplate = ({
+interface BlogPostTemplateProps {
+  data: {
+    previous: {
+      fields: {
+        slug: string
+        autoDate?: string
+      }
+      frontmatter: {
+        title: string
+      }
+    } | null
+    next: {
+      fields: {
+        slug: string
+        autoDate?: string
+      }
+      frontmatter: {
+        title: string
+      }
+    } | null
+    site: {
+      siteMetadata: {
+        title: string
+      }
+    }
+    markdownRemark: {
+      id: string
+      excerpt: string
+      html: string
+      frontmatter: {
+        title: string
+        date?: string
+        description?: string
+        category?: string
+        tags?: string[]
+      }
+      fields: {
+        slug: string
+        autoDate?: string
+      }
+    }
+  }
+  location: any
+}
+
+const BlogPostTemplate: React.FC<BlogPostTemplateProps> = ({
   data: { previous, next, site, markdownRemark: post },
   location,
 }) => {
@@ -35,7 +79,18 @@ const BlogPostTemplate = ({
             <div className="flex items-center space-x-4 text-muted-foreground">
               <div className="flex items-center space-x-2">
                 <Calendar className="w-4 h-4" />
-                <time className="text-sm">{post.frontmatter.date}</time>
+                <time className="text-sm">
+                  {post.frontmatter.date ||
+                    (post.fields?.autoDate
+                      ? `${post.fields.autoDate.slice(
+                          0,
+                          4
+                        )}년 ${post.fields.autoDate.slice(
+                          5,
+                          7
+                        )}월 ${post.fields.autoDate.slice(8, 10)}일`
+                      : "")}
+                </time>
               </div>
             </div>
 
@@ -121,7 +176,9 @@ const BlogPostTemplate = ({
   )
 }
 
-export const Head = ({ data: { markdownRemark: post } }) => {
+export const Head: React.FC<BlogPostTemplateProps> = ({
+  data: { markdownRemark: post },
+}) => {
   return (
     <Seo
       title={post.frontmatter.title}
@@ -154,10 +211,15 @@ export const pageQuery = graphql`
         category
         tags
       }
+      fields {
+        slug
+        autoDate
+      }
     }
     previous: markdownRemark(id: { eq: $previousPostId }) {
       fields {
         slug
+        autoDate
       }
       frontmatter {
         title
@@ -166,6 +228,7 @@ export const pageQuery = graphql`
     next: markdownRemark(id: { eq: $nextPostId }) {
       fields {
         slug
+        autoDate
       }
       frontmatter {
         title

@@ -19,6 +19,7 @@ interface CategoryTemplateProps {
         excerpt: string
         fields: {
           slug: string
+          autoDate: string
         }
         frontmatter: {
           date: string
@@ -83,7 +84,9 @@ const CategoryTemplate: React.FC<CategoryTemplateProps> = ({
           <div className="space-y-8">
             {posts.map(post => {
               const title = post.frontmatter.title || post.fields.slug
-              const thumbnail = getImage(post.frontmatter.thumbnail)
+              const thumbnail = getImage(
+                post.frontmatter.thumbnail?.childImageSharp
+              )
 
               return (
                 <article
@@ -117,7 +120,16 @@ const CategoryTemplate: React.FC<CategoryTemplateProps> = ({
                               {title}
                             </h2>
                             <time className="text-sm text-muted-foreground mt-1 block">
-                              {post.frontmatter.date}
+                              {post.frontmatter.date ||
+                                (post.fields?.autoDate
+                                  ? `${post.fields.autoDate.slice(
+                                      0,
+                                      4
+                                    )}년 ${post.fields.autoDate.slice(
+                                      5,
+                                      7
+                                    )}월 ${post.fields.autoDate.slice(8, 10)}일`
+                                  : "")}
                             </time>
                           </header>
 
@@ -195,6 +207,7 @@ export const pageQuery = graphql`
         excerpt
         fields {
           slug
+          autoDate
         }
         frontmatter {
           date(formatString: "MMMM DD, YYYY")
