@@ -42,6 +42,11 @@ interface BlogPostTemplateProps {
         description?: string
         category?: string
         tags?: string[]
+        thumbnail?: {
+          childImageSharp?: {
+            gatsbyImageData?: any
+          }
+        }
       }
       fields: {
         slug: string
@@ -169,12 +174,53 @@ const BlogPostTemplate: React.FC<BlogPostTemplateProps> = ({
 
 export const Head: React.FC<BlogPostTemplateProps> = ({
   data: { markdownRemark: post },
+  location,
 }) => {
+  const thumbnail =
+    post.frontmatter.thumbnail?.childImageSharp?.gatsbyImageData?.images
+      ?.fallback?.src
+  const fullUrl = `https://pjj186.github.io${location.pathname}`
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.frontmatter.title,
+    description: post.frontmatter.description || post.excerpt,
+    author: {
+      "@type": "Person",
+      name: "Lenny",
+      url: "https://pjj186.github.io",
+    },
+    datePublished: post.frontmatter.date || post.fields?.autoDate,
+    dateModified: post.frontmatter.date || post.fields?.autoDate,
+    url: fullUrl,
+    image: thumbnail
+      ? `https://pjj186.github.io${thumbnail}`
+      : "https://pjj186.github.io/icons/icon-512x512.png",
+    publisher: {
+      "@type": "Organization",
+      name: "Lenny.dev",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://pjj186.github.io/icons/icon-512x512.png",
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": fullUrl,
+    },
+  }
+
   return (
     <Seo
       title={post.frontmatter.title}
       description={post.frontmatter.description || post.excerpt}
-    />
+      pathname={location.pathname}
+      image={thumbnail}
+      article={true}
+    >
+      <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+    </Seo>
   )
 }
 
@@ -201,6 +247,16 @@ export const pageQuery = graphql`
         description
         category
         tags
+        thumbnail {
+          childImageSharp {
+            gatsbyImageData(
+              width: 1200
+              height: 630
+              placeholder: BLURRED
+              formats: [AUTO, WEBP, AVIF]
+            )
+          }
+        }
       }
       fields {
         slug
