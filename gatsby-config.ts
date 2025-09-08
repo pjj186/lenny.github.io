@@ -14,7 +14,7 @@ module.exports = {
       name: `Lenny`,
       summary: `프론트엔드를 주로 하고 있는 개발자입니다.\n꾸준히 공부해야하는데 빈둥거리는걸 너무 좋아해서 탈이에요.\n게임 시간도 줄여야하는데 또 게임을 너무 좋아해서 탈이에요.\n유혹을 뿌리치려고 꾸준히 노력하고있어요. \n 여러분 오늘도 화이팅. 방문해주셔서 감사해요.`,
     },
-    description: `A starter blog demonstrating what Gatsby can do.`,
+    description: `lenny.dev`,
     siteUrl: `https://pjj186.github.io/`,
     social: {
       github: `pjj186`,
