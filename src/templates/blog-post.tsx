@@ -80,16 +80,7 @@ const BlogPostTemplate: React.FC<BlogPostTemplateProps> = ({
               <div className="flex items-center space-x-2">
                 <Calendar className="w-4 h-4" />
                 <time className="text-sm">
-                  {post.frontmatter.date ||
-                    (post.fields?.autoDate
-                      ? `${post.fields.autoDate.slice(
-                          0,
-                          4
-                        )}년 ${post.fields.autoDate.slice(
-                          5,
-                          7
-                        )}월 ${post.fields.autoDate.slice(8, 10)}일`
-                      : "")}
+                  {post.frontmatter.date || post.fields?.autoDate}
                 </time>
               </div>
             </div>
@@ -206,20 +197,20 @@ export const pageQuery = graphql`
       html
       frontmatter {
         title
-        date(formatString: "YYYY년 MM월 DD일")
+        date(formatString: "YYYY년 MM월 DD일 HH:mm:ss")
         description
         category
         tags
       }
       fields {
         slug
-        autoDate
+        autoDate(formatString: "YYYY년 MM월 DD일 HH:mm:ss")
       }
     }
     previous: markdownRemark(id: { eq: $previousPostId }) {
       fields {
         slug
-        autoDate
+        autoDate(formatString: "YYYY년 MM월 DD일")
       }
       frontmatter {
         title
@@ -228,7 +219,7 @@ export const pageQuery = graphql`
     next: markdownRemark(id: { eq: $nextPostId }) {
       fields {
         slug
-        autoDate
+        autoDate(formatString: "YYYY년 MM월 DD일")
       }
       frontmatter {
         title

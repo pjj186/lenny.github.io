@@ -74,16 +74,7 @@ const BlogIndex = ({ data, location }: { data: any; location: any }) => {
                           {title}
                         </h2>
                         <time className="text-sm text-muted-foreground mt-1 block">
-                          {post.frontmatter.date ||
-                            (post.fields?.autoDate
-                              ? `${post.fields.autoDate.slice(
-                                  0,
-                                  4
-                                )}년 ${post.fields.autoDate.slice(
-                                  5,
-                                  7
-                                )}월 ${post.fields.autoDate.slice(8, 10)}일`
-                              : "")}
+                          {post.frontmatter.date || post.fields?.autoDate}
                         </time>
                       </header>
 
@@ -139,12 +130,14 @@ export const pageQuery = graphql`
         title
       }
     }
-    allMarkdownRemark(sort: { frontmatter: { date: DESC } }) {
+    allMarkdownRemark(
+      sort: [{ frontmatter: { date: DESC } }, { fields: { autoDate: DESC } }]
+    ) {
       nodes {
         excerpt
         fields {
           slug
-          autoDate
+          autoDate(formatString: "YYYY년 MM월 DD일")
         }
         frontmatter {
           date(formatString: "YYYY년 MM월 DD일")

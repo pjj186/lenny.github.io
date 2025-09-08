@@ -196,20 +196,17 @@ exports.onCreateNode = ({
 
       // 한국 시간대로 조정 (UTC+9)
       const dateObj = new Date(birthTime as string | number | Date)
-      // 로컬 시간으로 포맷팅 (YYYY-MM-DD)
-      const year = dateObj.getFullYear()
-      const month = String(dateObj.getMonth() + 1).padStart(2, "0")
-      const day = String(dateObj.getDate()).padStart(2, "0")
-      const formattedDate = `${year}-${month}-${day}`
+      const koreanTime = new Date(dateObj.getTime() + 9 * 60 * 60 * 1000)
+      const koreanISODate = koreanTime.toISOString()
 
       console.log(
-        `자동 날짜 생성: ${node.id} -> ${formattedDate} (원본: ${birthTime})`
+        `자동 날짜 생성: ${node.id} -> ${koreanISODate} (원본: ${birthTime}, 한국시간 조정됨)`
       )
 
       createNodeField({
         name: `autoDate`,
         node,
-        value: formattedDate,
+        value: koreanISODate,
       })
     }
   }
@@ -260,7 +257,7 @@ exports.createSchemaCustomization = ({
 
     type Fields {
       slug: String
-      autoDate: String
+      autoDate: Date @dateformat
     }
   `)
 }
