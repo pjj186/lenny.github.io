@@ -265,50 +265,6 @@
   @apply bg-muted/30;
 }
 
-/* 목차 스타일링 */
-.toc-content ul {
-  @apply list-none ml-0 space-y-1;
-}
-
-.toc-content li {
-  @apply mb-0;
-}
-
-.toc-content a {
-  @apply text-muted-foreground hover:text-primary transition-colors duration-200 no-underline block py-1 px-2 rounded text-sm;
-}
-
-.toc-content a:hover {
-  @apply bg-muted/50;
-}
-
-.toc-content a.active {
-  @apply text-primary bg-primary/10 font-medium;
-}
-
-/* 헤딩 레벨별 들여쓰기 */
-.toc-content ul ul {
-  @apply ml-4 mt-1;
-}
-
-.toc-content ul ul ul {
-  @apply ml-4;
-}
-
-/* 자동 링크 헤더 스타일 */
-.autolink-header {
-  @apply opacity-0 transition-opacity duration-200 ml-2 text-muted-foreground hover:text-primary;
-}
-
-.markdown-content h1:hover .autolink-header,
-.markdown-content h2:hover .autolink-header,
-.markdown-content h3:hover .autolink-header,
-.markdown-content h4:hover .autolink-header,
-.markdown-content h5:hover .autolink-header,
-.markdown-content h6:hover .autolink-header {
-  @apply opacity-100;
-}
-
 /* 다크 모드 스타일 */
 .dark .markdown-content {
   @apply text-foreground;
