@@ -1,234 +1,27 @@
 ---
-title: Hello World
-date: "2015-05-01T22:12:03.284Z"
-description: "나의 첫 번째 블로그 포스트입니다! 앞으로 더 흥미로운 글들을 많이 써보겠습니다."
-thumbnail: "./salty_egg.jpg"
-category: "Tutorial"
-tags: ["첫 포스트", "시작", "블로그"]
+title: "반갑습니다!"
+description: "개인 블로그 탄생이요~"
+thumbnail: "./thumbnail.jpg"
+category: "잡담"
+tags: ["소개"]
 ---
 
-This is my first post on my new fake blog! How exciting!
+안녕하세요. 이번에 개인 블로그를 만들었습니다.
 
-I'm sure I'll write a lot more interesting things in the future.
+Gatsby 사용했고, 템플릿 + Cursor 도움받아서 빠르게 만들었어요.
 
-Oh, and here's a great quote from this Wikipedia on
-[salted duck eggs](https://en.wikipedia.org/wiki/Salted_duck_egg).
+블로그를 만들게 된 계기는 요즘 너무 도태개발자가 되어가고있는듯한 느낌을 받아서 만들게됐어요.
 
-> A salted duck egg is a Chinese preserved food product made by soaking duck
-> eggs in brine, or packing each egg in damp, salted charcoal. In Asian
-> supermarkets, these eggs are sometimes sold covered in a thick layer of salted
-> charcoal paste. The eggs may also be sold with the salted paste removed,
-> wrapped in plastic, and vacuum packed. From the salt curing process, the
-> salted duck eggs have a briny aroma, a gelatin-like egg white and a
-> firm-textured, round yolk that is bright orange-red in color.
+요즘 공부도 너~무 안하고 놀기만해서 매일 자기전에 자괴감이 많이 들더라구여.
 
-![Chinese Salty Egg](./salty_egg.jpg)
+대학생때, 개발을 잘 모를땐 참 공부도 열심히하고 열정이 넘쳤는데 요즘은 너무 총기가 없어진 느낌이에요 ㅠ
 
-You can also write code blocks here!
+그래서 블로그를 만들고 꾸준히 공부하고 공부한 내용을 기록해볼려고 만들었습니다 ㅠ
 
-```js
-const saltyDuckEgg = "chinese preserved food product"
-```
+사이드 프로젝트나 재밌는거 만들어야하는데 아이디어가 없어서 이런거라도 해야되겠더라구요.
 
-| Number | Title                                    | Year |
-| :----- | :--------------------------------------- | ---: |
-| 1      | Harry Potter and the Philosopher’s Stone | 2001 |
-| 2      | Harry Potter and the Chamber of Secrets  | 2002 |
-| 3      | Harry Potter and the Prisoner of Azkaban | 2004 |
+블로그에는 아마 개발 관련 내용 및 제 주관적인 생각, 자아성찰 머 약간 이런 내용이 주를 이룰것같네요~?
 
-[View raw (TEST.md)](https://raw.github.com/adamschwartz/github-markdown-kitchen-sink/master/README.md)
+아마 TIL 같은게 대부분이겠지만여~
 
-This is a paragraph.
-
-    This is a paragraph.
-
-# Header 1
-
-## Header 2
-
-    Header 1
-    ========
-
-    Header 2
-    --------
-
-# Header 1
-
-## Header 2
-
-### Header 3
-
-#### Header 4
-
-##### Header 5
-
-###### Header 6
-
-    # Header 1
-    ## Header 2
-    ### Header 3
-    #### Header 4
-    ##### Header 5
-    ###### Header 6
-
-# Header 1
-
-## Header 2
-
-### Header 3
-
-#### Header 4
-
-##### Header 5
-
-###### Header 6
-
-    # Header 1 #
-    ## Header 2 ##
-    ### Header 3 ###
-    #### Header 4 ####
-    ##### Header 5 #####
-    ###### Header 6 ######
-
-> Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.
-
-    > Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.
-
-> ## This is a header.
->
-> 1. This is the first list item.
-> 2. This is the second list item.
->
-> Here's some example code:
->
->     Markdown.generate();
-
-    > ## This is a header.
-    > 1. This is the first list item.
-    > 2. This is the second list item.
-    >
-    > Here's some example code:
-    >
-    >     Markdown.generate();
-
-- Red
-- Green
-- Blue
-
-* Red
-* Green
-* Blue
-
-- Red
-- Green
-- Blue
-
-```markdown
-- Red
-- Green
-- Blue
-
-* Red
-* Green
-* Blue
-
-- Red
-- Green
-- Blue
-```
-
-- `code goes` here in this line
-- **bold** goes here
-
-```markdown
-- `code goes` here in this line
-- **bold** goes here
-```
-
-1. Buy flour and salt
-1. Mix together with water
-1. Bake
-
-```markdown
-1. Buy flour and salt
-1. Mix together with water
-1. Bake
-```
-
-1. `code goes` here in this line
-1. **bold** goes here
-
-```markdown
-1. `code goes` here in this line
-1. **bold** goes here
-```
-
-Paragraph:
-
-    Code
-
-<!-- -->
-
-    Paragraph:
-
-        Code
-
----
-
----
-
----
-
----
-
----
-
-    * * *
-
-    ***
-
-    *****
-
-    - - -
-
-    ---------------------------------------
-
-This is [an example](http://example.com "Example") link.
-
-[This link](http://example.com) has no title attr.
-
-This is [an example][id] reference-style link.
-
-[id]: http://example.com "Optional Title"
-
-    This is [an example](http://example.com "Example") link.
-
-    [This link](http://example.com) has no title attr.
-
-    This is [an example] [id] reference-style link.
-
-    [id]: http://example.com "Optional Title"
-
-_single asterisks_
-
-_single underscores_
-
-**double asterisks**
-
-**double underscores**
-
-    *single asterisks*
-
-    _single underscores_
-
-    **double asterisks**
-
-    __double underscores__
-
-This paragraph has some `code` in it.
-
-    This paragraph has some `code` in it.
-
-![Alt Text](https://via.placeholder.com/200x50 "Image Title")
-
-    ![Alt Text](https://via.placeholder.com/200x50 "Image Title")
+아무튼 방문해주셔서 감사합니다~ 꾸준히 업그레이드 시키는 맛도 있을것같네요 후후.
