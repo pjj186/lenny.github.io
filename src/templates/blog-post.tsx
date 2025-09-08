@@ -118,12 +118,8 @@ const BlogPostTemplate: React.FC<BlogPostTemplateProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* 이전 포스트 */}
             <div className="md:justify-self-start">
-              {previous && (
-                <Link
-                  to={previous.fields.slug}
-                  rel="prev"
-                  className="group block"
-                >
+              {next && (
+                <Link to={next.fields.slug} rel="prev" className="group block">
                   <div className="bg-card hover:bg-card/80 border rounded-lg p-6 transition-colors duration-200">
                     <div className="flex items-start space-x-3">
                       <div className="flex-shrink-0 p-2 bg-muted rounded-full group-hover:bg-muted/80 transition-colors">
@@ -134,7 +130,7 @@ const BlogPostTemplate: React.FC<BlogPostTemplateProps> = ({
                           이전 포스트
                         </p>
                         <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2">
-                          {previous.frontmatter.title}
+                          {next.frontmatter.title}
                         </h3>
                       </div>
                     </div>
@@ -145,8 +141,12 @@ const BlogPostTemplate: React.FC<BlogPostTemplateProps> = ({
 
             {/* 다음 포스트 */}
             <div className="md:justify-self-end">
-              {next && (
-                <Link to={next.fields.slug} rel="next" className="group block">
+              {previous && (
+                <Link
+                  to={previous.fields.slug}
+                  rel="next"
+                  className="group block"
+                >
                   <div className="bg-card hover:bg-card/80 border rounded-lg p-6 transition-colors duration-200">
                     <div className="flex items-start space-x-3">
                       <div className="flex-1 min-w-0 text-right">
@@ -154,7 +154,7 @@ const BlogPostTemplate: React.FC<BlogPostTemplateProps> = ({
                           다음 포스트
                         </p>
                         <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2">
-                          {next.frontmatter.title}
+                          {previous.frontmatter.title}
                         </h3>
                       </div>
                       <div className="flex-shrink-0 p-2 bg-muted rounded-full group-hover:bg-muted/80 transition-colors">

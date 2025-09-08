@@ -55,6 +55,9 @@ exports.createPages = async ({
   // 1. 개별 블로그 포스트 페이지 생성
   if (posts.length > 0) {
     posts.forEach((post: any, index: number) => {
+      // posts는 최신순 정렬 (DESC)
+      // previous: 시간상 이전 포스트 (더 오래된 포스트) = index + 1
+      // next: 시간상 다음 포스트 (더 최신 포스트) = index - 1
       const previousPostId =
         index === posts.length - 1 ? null : posts[index + 1].id
       const nextPostId = index === 0 ? null : posts[index - 1].id
