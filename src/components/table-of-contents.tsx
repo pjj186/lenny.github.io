@@ -34,6 +34,22 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({
     return () => observer.disconnect()
   }, [])
 
+  // activeId가 변경될 때마다 목차 링크에 active 클래스 적용
+  useEffect(() => {
+    const tocLinks = document.querySelectorAll(".toc-content a")
+    tocLinks.forEach(link => {
+      const href = link.getAttribute("href")
+      if (href) {
+        const linkId = href.replace("#", "")
+        if (linkId === activeId) {
+          link.classList.add("active")
+        } else {
+          link.classList.remove("active")
+        }
+      }
+    })
+  }, [activeId])
+
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault()
     const href = e.currentTarget.getAttribute("href")
