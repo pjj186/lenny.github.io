@@ -287,3 +287,31 @@
 .dark .markdown-content h6 {
   @apply text-foreground;
 }
+
+/* 헤딩 앵커 링크 스타일링 */
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content h4 {
+  position: relative;
+}
+
+.markdown-content h1:hover .custom-class,
+.markdown-content h2:hover .custom-class,
+.markdown-content h3:hover .custom-class,
+.markdown-content h4:hover .custom-class {
+  opacity: 1;
+  visibility: visible;
+}
+
+.custom-class {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  margin-left: 0.5rem;
+  color: hsl(var(--muted-foreground));
+}
+
+.custom-class:hover {
+  color: hsl(var(--primary));
+}
