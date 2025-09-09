@@ -88,53 +88,7 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({
     (e: React.MouseEvent<HTMLAnchorElement> | Event, id: string) => {
       e.preventDefault()
 
-      // 다단계 요소 찾기 시스템
-      let element = document.getElementById(id)
-
-      if (!element) {
-        // URL 인코딩된 ID로도 시도
-        try {
-          const encodedId = encodeURIComponent(id)
-          element = document.getElementById(encodedId)
-        } catch (error) {
-          // 인코딩 실패 시 무시
-        }
-      }
-
-      if (!element) {
-        // querySelector로 attribute selector 사용
-        element = document.querySelector(`[id="${id}"]`)
-      }
-
-      if (!element) {
-        // 대소문자 무시하고 ID로 찾기
-        const headings = document.querySelectorAll(
-          "h1[id], h2[id], h3[id], h4[id], h5[id], h6[id]"
-        )
-        element =
-          (Array.from(headings).find(
-            h => h.id.toLowerCase() === id.toLowerCase()
-          ) as HTMLElement) || null
-      }
-
-      if (!element) {
-        // 텍스트 기반으로 헤딩 찾기
-        const headings = document.querySelectorAll("h1, h2, h3, h4, h5, h6")
-        const coreKeyword = id.split("-")[0]?.toLowerCase() || ""
-
-        element =
-          (Array.from(headings).find(h => {
-            const text = h.textContent?.trim().toLowerCase() || ""
-
-            if (text === id.toLowerCase()) return true
-            if (text.startsWith(coreKeyword)) return true
-
-            const cleanText = text.replace(/[()]/g, "").trim()
-            if (cleanText.includes(coreKeyword)) return true
-
-            return false
-          }) as HTMLElement) || null
-      }
+      const element = document.getElementById(id)
 
       if (element) {
         const offsetTop = element.offsetTop - 100
