@@ -195,7 +195,7 @@
 }
 
 .markdown-content a {
-  @apply text-primary hover:underline;
+  @apply text-blue-500 hover:underline;
 }
 
 .markdown-content blockquote {
