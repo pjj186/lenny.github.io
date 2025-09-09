@@ -102,7 +102,7 @@ module.exports = {
               markdownCaptions: true,
               backgroundColor: "transparent",
               linkImagesToOriginal: false,
-              withWebp: true,
+              withWebp: true, // WebP 변환 활성화
             },
           },
           {
@@ -121,7 +121,22 @@ module.exports = {
             },
           },
           `gatsby-remark-prismjs`,
-          `gatsby-remark-copy-relative-linked-files`,
+          {
+            resolve: `gatsby-remark-copy-relative-linked-files`,
+            options: {
+              // 이미지 파일은 gatsby-remark-images가 처리하도록 제외
+              ignoreFileExtensions: [
+                `png`,
+                `jpg`,
+                `jpeg`,
+                `bmp`,
+                `tiff`,
+                `webp`,
+                `gif`,
+                `svg`,
+              ],
+            },
+          },
         ],
       },
     },
