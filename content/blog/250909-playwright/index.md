@@ -2,6 +2,7 @@
 title: "Playwright 시작하기"
 description: "Playwright 탐구기록"
 thumbnail: "./thumbnail.png"
+date: "2025-09-09T13:39:00"
 category: "dev"
 tags: ["Playwright", "E2E", "Test"]
 ---

@@ -2,6 +2,7 @@
 title: "첫 포스팅"
 description: "lenny.dev 탄생"
 thumbnail: "./thumbnail.jpg"
+date: "2025-09-08T14:39:00"
 category: "잡담"
 tags: ["소개"]
 ---

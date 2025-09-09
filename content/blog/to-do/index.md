@@ -2,6 +2,7 @@
 title: "다음 할 일"
 description: "블로그에 추가 할 기능들 정리"
 thumbnail: "./thumbnail.jpg"
+date: "2025-09-08T20:56:00"
 category: "TIL"
 tags: ["블로그", "기능"]
 ---
