@@ -37,6 +37,12 @@ module.exports = {
     `gatsby-transformer-sharp`,
     "gatsby-plugin-postcss",
     {
+      resolve: "gatsby-plugin-google-gtag",
+      options: {
+        trackingIds: ["G-D6ELXGW7L3"],
+      },
+    },
+    {
       resolve: "gatsby-plugin-alias-imports",
       options: {
         alias: {
