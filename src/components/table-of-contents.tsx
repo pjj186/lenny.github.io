@@ -239,7 +239,7 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({
           </CollapsibleContent>
         </Collapsible>
       ) : (
-        <div className="border rounded-lg p-4 bg-card/30 backdrop-blur-sm">
+        <div className="border rounded-lg p-4 bg-card/50 backdrop-blur-sm shadow-sm">
           <div className="flex items-center space-x-2 mb-4">
             <List className="w-4 h-4" />
             <span className="font-semibold text-sm">목차</span>

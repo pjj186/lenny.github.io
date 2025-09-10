@@ -72,7 +72,7 @@ const BlogPostTemplate: React.FC<BlogPostTemplateProps> = ({
       <div className="flex flex-col lg:flex-row gap-8">
         {/* 메인 아티클 */}
         <article
-          className="flex-1 max-w-none lg:max-w-3xl"
+          className="flex-1 max-w-none lg:max-w-4xl"
           itemScope
           itemType="http://schema.org/Article"
         >
@@ -185,7 +185,7 @@ const BlogPostTemplate: React.FC<BlogPostTemplateProps> = ({
         <aside className="w-full lg:w-80 lg:shrink-0">
           <TableOfContents
             tableOfContents={post.tableOfContents}
-            className="lg:ml-8"
+            className="lg:ml-0"
           />
         </aside>
       </div>

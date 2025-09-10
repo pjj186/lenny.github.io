@@ -20,7 +20,7 @@ const Layout = ({
 
       {/* Main Content - flex-grow로 남은 공간을 모두 차지 */}
       <main className="flex-grow">
-        <div className="container max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {children}
         </div>
       </main>
