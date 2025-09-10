@@ -1,5 +1,5 @@
 ---
-title: "Playwright Generating tests"
+title: "Playwright 테스트 생성하기"
 description: "Playwright 탐구기록"
 thumbnail: "./thumbnail.png"
 date: "2025-09-10T16:34:00"
