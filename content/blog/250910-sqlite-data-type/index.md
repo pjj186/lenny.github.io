@@ -1,9 +1,9 @@
 ---
-title: "[TIL] SQLite Data Type"
+title: "SQLite Data Type"
 description: "SQLite Data Type에 대하여 (쏘 심플)"
 thumbnail: "./thumbnail.png"
 date: "2025-09-10T16:39:00"
-category: "TIL"
+category: "Database"
 tags: ["SQL", "SQLite"]
 ---
 

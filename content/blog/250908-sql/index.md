@@ -1,10 +1,10 @@
 ---
-title: "[TIL] SQL (2025.09.08)"
-description: "2025.09.08 오늘 공부한 SQL 내용 기록"
+title: "SQL 테이블 생성, 삭제, 데이터 추가"
+description: "SQL 테이블 생성, 삭제, 데이터 추가"
 date: "2025-09-08T21:35:00"
 thumbnail: "./thumbnail.png"
-category: "TIL"
-tags: ["SQL", "DDL", "DB"]
+category: "Database"
+tags: ["SQL", "SQLite"]
 ---
 
 # DDL이란?
