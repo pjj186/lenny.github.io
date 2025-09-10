@@ -1,6 +1,6 @@
 ---
 title: "[TIL] SQLite Data Type"
-description: "Playwright 탐구기록"
+description: "SQLite Data Type에 대하여 (쏘 심플)"
 thumbnail: "./thumbnail.png"
 date: "2025-09-10T16:39:00"
 category: "TIL"
