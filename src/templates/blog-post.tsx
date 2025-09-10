@@ -66,13 +66,6 @@ const BlogPostTemplate: React.FC<BlogPostTemplateProps> = ({
 }) => {
   const siteTitle = site.siteMetadata?.title || `Title`
 
-  // 디버깅: tableOfContents 데이터 확인
-  console.log("BlogPost - 포스트 데이터:", {
-    title: post.frontmatter.title,
-    tableOfContents: post.tableOfContents,
-    tableOfContentsLength: post.tableOfContents?.length || 0,
-  })
-
   return (
     <Layout location={location} title={siteTitle}>
       {/* 메인 컨텐츠 컨테이너 */}

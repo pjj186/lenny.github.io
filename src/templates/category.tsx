@@ -93,71 +93,79 @@ const CategoryTemplate: React.FC<CategoryTemplateProps> = ({
                   key={post.fields.slug}
                   className="group bg-card hover:bg-card/80 border rounded-lg shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden"
                 >
-                  <Link to={post.fields.slug} className="block">
-                    <div className="flex flex-col md:flex-row">
-                      {/* 썸네일 이미지 */}
-                      <div className="md:w-80 w-full h-48 md:h-auto flex-shrink-0 overflow-hidden">
-                        {thumbnail ? (
-                          <GatsbyImage
-                            image={thumbnail}
-                            alt={title}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
-                          />
-                        ) : (
-                          <div className="w-full h-full bg-muted flex items-center justify-center">
-                            <span className="text-muted-foreground text-sm">
-                              No Image
-                            </span>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* 콘텐츠 영역 */}
-                      <div className="flex-1 p-6 flex flex-col justify-between">
-                        <div>
-                          <header className="mb-3">
-                            <h2 className="text-xl md:text-2xl font-bold text-foreground group-hover:text-primary transition-colors line-clamp-2">
-                              {title}
-                            </h2>
-                            <time className="text-sm text-muted-foreground mt-1 block">
-                              {post.frontmatter.date ||
-                                (post.fields?.autoDate
-                                  ? `${post.fields.autoDate.slice(
-                                      0,
-                                      4
-                                    )}년 ${post.fields.autoDate.slice(
-                                      5,
-                                      7
-                                    )}월 ${post.fields.autoDate.slice(8, 10)}일`
-                                  : "")}
-                            </time>
-                          </header>
-
-                          {/* 카테고리와 태그 */}
-                          <div className="mb-3">
-                            <CategoryTag
-                              category={post.frontmatter.category}
-                              tags={post.frontmatter.tags}
-                              showLinks={true}
-                            />
-                          </div>
-
-                          <section>
-                            <p className="text-muted-foreground leading-relaxed line-clamp-3">
-                              {post.frontmatter.description ||
-                                post.excerpt.replace(/<[^>]*>/g, "")}
-                            </p>
-                          </section>
-                        </div>
-
-                        <div className="mt-4">
-                          <span className="text-primary text-sm font-medium group-hover:underline">
-                            자세히 읽기 →
+                  <div className="flex flex-col md:flex-row">
+                    {/* 썸네일 이미지 - 클릭 가능 */}
+                    <Link
+                      to={post.fields.slug}
+                      className="md:w-80 w-full h-48 md:h-auto flex-shrink-0 overflow-hidden block"
+                    >
+                      {thumbnail ? (
+                        <GatsbyImage
+                          image={thumbnail}
+                          alt={title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-muted flex items-center justify-center">
+                          <span className="text-muted-foreground text-sm">
+                            No Image
                           </span>
                         </div>
+                      )}
+                    </Link>
+
+                    {/* 콘텐츠 영역 */}
+                    <div className="flex-1 p-6 flex flex-col justify-between">
+                      <div>
+                        <header className="mb-3">
+                          {/* 제목 - 클릭 가능 */}
+                          <Link to={post.fields.slug}>
+                            <h2 className="text-xl md:text-2xl font-bold text-foreground group-hover:text-primary hover:text-primary transition-colors line-clamp-2">
+                              {title}
+                            </h2>
+                          </Link>
+                          <time className="text-sm text-muted-foreground mt-1 block">
+                            {post.frontmatter.date ||
+                              (post.fields?.autoDate
+                                ? `${post.fields.autoDate.slice(
+                                    0,
+                                    4
+                                  )}년 ${post.fields.autoDate.slice(
+                                    5,
+                                    7
+                                  )}월 ${post.fields.autoDate.slice(8, 10)}일`
+                                : "")}
+                          </time>
+                        </header>
+
+                        {/* 카테고리와 태그 - 독립적인 링크 */}
+                        <div className="mb-3">
+                          <CategoryTag
+                            category={post.frontmatter.category}
+                            tags={post.frontmatter.tags}
+                            showLinks={true}
+                          />
+                        </div>
+
+                        <section>
+                          <p className="text-muted-foreground leading-relaxed line-clamp-3">
+                            {post.frontmatter.description ||
+                              post.excerpt.replace(/<[^>]*>/g, "")}
+                          </p>
+                        </section>
+                      </div>
+
+                      {/* 자세히 읽기 버튼 - 클릭 가능 */}
+                      <div className="mt-4">
+                        <Link
+                          to={post.fields.slug}
+                          className="text-primary text-sm font-medium hover:underline inline-block"
+                        >
+                          자세히 읽기 →
+                        </Link>
                       </div>
                     </div>
-                  </Link>
+                  </div>
                 </article>
               )
             })}
