@@ -2,7 +2,7 @@
 title: "[TIL] SQLite Constraints (제약조건)"
 description: "[TIL]SQLite Constraints"
 thumbnail: "./thumbnail.png"
-date: "2025-09-10T17:00:00"
+date: "2025-09-10T20:00:00"
 category: "TIL"
 tags: ["SQL", "SQLite"]
 ---
