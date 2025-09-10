@@ -2,6 +2,7 @@
 title: "[TIL] SQL (2025.09.08)"
 description: "2025.09.08 오늘 공부한 SQL 내용 기록"
 date: "2025-09-08T21:35:00"
+thumbnail: "./thumbnail.png"
 category: "TIL"
 tags: ["SQL", "DDL", "DB"]
 ---
