@@ -86,12 +86,6 @@ module.exports = {
     {
       resolve: `gatsby-transformer-remark`,
       options: {
-        tableOfContents: {
-          absolute: false,
-          pathToSlugField: "fields.slug",
-          maxDepth: 6,
-          heading: null,
-        },
         plugins: [
           {
             resolve: `gatsby-remark-images`,

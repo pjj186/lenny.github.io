@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useCallback } from "react"
+import React, { useEffect, useState, useCallback, useRef } from "react"
 import { ChevronRight, List } from "lucide-react"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
@@ -9,65 +9,9 @@ import {
 } from "@/components/ui/collapsible"
 import { Button } from "@/components/ui/button"
 
-interface TableOfContentsItem {
-  id: string
-  title: string
-  level: number
-  children?: TableOfContentsItem[]
-}
-
 interface TableOfContentsProps {
   tableOfContents: string
   className?: string
-}
-
-// HTML 문자열을 파싱해서 구조화된 데이터로 변환
-const parseTableOfContents = (html: string): TableOfContentsItem[] => {
-  if (!html || html.trim() === "") return []
-
-  const parser = new DOMParser()
-  const doc = parser.parseFromString(html, "text/html")
-  const links = doc.querySelectorAll("a[href^='#']")
-
-  const items: TableOfContentsItem[] = []
-
-  links.forEach(link => {
-    const href = link.getAttribute("href")
-    const title = link.textContent?.trim()
-
-    if (href && title) {
-      // href에서 #을 제거하고 URL 디코딩 적용
-      let id = href.replace("#", "")
-      try {
-        // URL 인코딩된 한글을 디코딩
-        id = decodeURIComponent(id)
-      } catch (error) {
-        // 디코딩 실패 시 원본 사용
-      }
-
-      // UL의 중첩 깊이로 레벨 계산
-      let element = link.parentElement
-      let level = 1
-
-      while (element) {
-        if (element.tagName === "UL") {
-          const parentLi = element.parentElement?.closest("li")
-          if (parentLi) {
-            level++
-          }
-        }
-        element = element.parentElement
-      }
-
-      items.push({
-        id,
-        title,
-        level,
-      })
-    }
-  })
-
-  return items
 }
 
 const TableOfContents: React.FC<TableOfContentsProps> = ({
@@ -77,31 +21,34 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({
   const [activeId, setActiveId] = useState<string>("")
   const [isOpen, setIsOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const tocRef = useRef<HTMLDivElement>(null)
 
-  const tocItems = useMemo(
-    () => parseTableOfContents(tableOfContents),
-    [tableOfContents]
-  )
+  // 목차 링크 클릭 이벤트 처리
+  const handleTocClick = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      const target = e.target as HTMLElement
+      const link = target.closest('a[href^="#"]') as HTMLAnchorElement
 
-  // 부드러운 스크롤 이동 (useCallback으로 메모이제이션)
-  const handleClick = useCallback(
-    (e: React.MouseEvent<HTMLAnchorElement> | Event, id: string) => {
-      e.preventDefault()
+      if (link) {
+        e.preventDefault()
+        const href = link.getAttribute("href")
+        if (href) {
+          const id = decodeURIComponent(href.replace("#", ""))
+          const element = document.getElementById(id)
 
-      const element = document.getElementById(id)
+          if (element) {
+            const offsetTop = element.offsetTop - 100
+            window.scrollTo({
+              top: offsetTop,
+              behavior: "smooth",
+            })
+          }
 
-      if (element) {
-        const offsetTop = element.offsetTop - 100
-
-        window.scrollTo({
-          top: offsetTop,
-          behavior: "smooth",
-        })
-      }
-
-      // 모바일에서는 클릭 후 접기
-      if (isMobile) {
-        setIsOpen(false)
+          // 모바일에서는 클릭 후 접기
+          if (isMobile) {
+            setIsOpen(false)
+          }
+        }
       }
     },
     [isMobile]
@@ -124,7 +71,7 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({
 
   // IntersectionObserver를 이용한 현재 섹션 하이라이트
   useEffect(() => {
-    if (!tocItems.length) {
+    if (!tableOfContents || !tableOfContents.trim()) {
       return
     }
 
@@ -176,38 +123,39 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({
         observer.disconnect()
       }
     }
-  }, [tocItems])
+  }, [tableOfContents])
 
-  if (!tocItems.length) {
+  // 활성 링크 스타일 업데이트
+  useEffect(() => {
+    if (!tocRef.current) return
+
+    const links = tocRef.current.querySelectorAll('a[href^="#"]')
+
+    links.forEach(link => {
+      const href = link.getAttribute("href")
+      if (href) {
+        const id = decodeURIComponent(href.replace("#", ""))
+        if (id === activeId) {
+          link.classList.add("toc-active")
+        } else {
+          link.classList.remove("toc-active")
+        }
+      }
+    })
+  }, [activeId])
+
+  if (!tableOfContents || !tableOfContents.trim()) {
     return null
   }
 
   const TocContent = () => (
     <ScrollArea className="h-full max-h-[60vh] pr-3">
-      <div className="space-y-1">
-        {tocItems.map(item => (
-          <div key={item.id}>
-            <a
-              href={`#${item.id}`}
-              onClick={e => handleClick(e, item.id)}
-              className={`
-                block py-2 px-3 text-sm rounded-lg transition-all duration-200
-                ${item.level === 1 ? "font-medium" : ""}
-                ${item.level === 2 ? "ml-3 text-muted-foreground" : ""}
-                ${item.level === 3 ? "ml-6 text-muted-foreground text-xs" : ""}
-                ${item.level >= 4 ? "ml-9 text-muted-foreground text-xs" : ""}
-                ${
-                  activeId === item.id
-                    ? "bg-primary text-primary-foreground font-semibold shadow-sm"
-                    : "hover:bg-accent hover:text-accent-foreground text-muted-foreground"
-                }
-              `}
-            >
-              {item.title}
-            </a>
-          </div>
-        ))}
-      </div>
+      <div
+        ref={tocRef}
+        className="toc-content"
+        dangerouslySetInnerHTML={{ __html: tableOfContents }}
+        onClick={handleTocClick}
+      />
     </ScrollArea>
   )
 

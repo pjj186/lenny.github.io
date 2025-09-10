@@ -315,3 +315,42 @@
 .custom-class:hover {
   color: hsl(var(--primary));
 }
+
+/* 목차 스타일 - 이전과 동일한 Tailwind 스타일 */
+.toc-content ul {
+  @apply list-none m-0 p-0 space-y-1;
+}
+
+.toc-content li {
+  @apply m-0 p-0;
+}
+
+.toc-content a {
+  @apply block py-2 px-3 text-sm rounded-lg transition-all duration-200 
+         text-muted-foreground hover:bg-accent hover:text-accent-foreground;
+}
+
+/* 레벨 1: 기본 스타일 (font-medium) */
+.toc-content > ul > li > a {
+  @apply font-medium;
+}
+
+/* 레벨 2: ml-3 + text-muted-foreground */
+.toc-content ul ul a {
+  @apply ml-3 text-muted-foreground;
+}
+
+/* 레벨 3: ml-6 + text-muted-foreground + text-xs */
+.toc-content ul ul ul a {
+  @apply ml-6 text-muted-foreground text-xs;
+}
+
+/* 레벨 4+: ml-9 + text-muted-foreground + text-xs */
+.toc-content ul ul ul ul a {
+  @apply ml-9 text-muted-foreground text-xs;
+}
+
+/* 활성 상태: bg-primary + text-primary-foreground + font-semibold + shadow-sm */
+.toc-content a.toc-active {
+  @apply bg-primary text-primary-foreground font-semibold shadow-sm;
+}
