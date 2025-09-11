@@ -48,13 +48,13 @@ const BlogIndex = ({ data, location }: { data: any; location: any }) => {
                 {/* 썸네일 이미지 - 클릭 가능 */}
                 <Link
                   to={post.fields.slug}
-                  className="md:w-80 w-full h-48 md:h-auto flex-shrink-0 overflow-hidden block"
+                  className="md:w-96 w-full aspect-video flex-shrink-0 overflow-hidden block rounded-lg"
                 >
                   {thumbnail ? (
                     <GatsbyImage
                       image={thumbnail}
                       alt={title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-200"
                     />
                   ) : (
                     <div className="w-full h-full bg-muted flex items-center justify-center">
@@ -155,12 +155,7 @@ export const pageQuery = graphql`
           tags
           thumbnail {
             childImageSharp {
-              gatsbyImageData(
-                width: 300
-                height: 200
-                placeholder: BLURRED
-                formats: [AUTO, WEBP, AVIF]
-              )
+              gatsbyImageData(placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
             }
           }
         }
