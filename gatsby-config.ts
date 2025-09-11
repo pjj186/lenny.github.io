@@ -32,10 +32,19 @@ module.exports = {
     twitterUsername: `@pjj186`,
   },
   plugins: [
+    `gatsby-plugin-sitemap`,
     `gatsby-plugin-image`,
     `gatsby-plugin-sharp`,
     `gatsby-transformer-sharp`,
     "gatsby-plugin-postcss",
+    {
+      resolve: "gatsby-plugin-robots-txt",
+      options: {
+        host: "https://pjj186.github.io",
+        sitemap: "https://pjj186.github.io/sitemap.xml",
+        policy: [{ userAgent: "*", allow: "/" }],
+      },
+    },
     {
       resolve: "gatsby-plugin-google-gtag",
       options: {
