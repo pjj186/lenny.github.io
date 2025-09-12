@@ -50,8 +50,8 @@ module.exports = {
           `,
         resolvePages: ({ allSitePage }: { allSitePage: any }) =>
           allSitePage.nodes,
-        serialize: ({ site, path }: { site: any; path: string }) => ({
-          url: `${site.siteMetadata.siteUrl}${path}`,
+        serialize: ({ path }: { path: string }) => ({
+          url: path,
           lastmod: new Date().toISOString(),
           priority: path === "/" ? 1.0 : 0.8,
         }),
