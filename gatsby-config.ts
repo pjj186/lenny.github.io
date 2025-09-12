@@ -29,7 +29,6 @@ module.exports = {
       `TIL`,
     ],
     image: `/icons/icon-512x512.png`,
-    twitterUsername: `@pjj186`,
   },
   plugins: [
     `gatsby-plugin-sitemap`,
@@ -40,8 +39,8 @@ module.exports = {
     {
       resolve: "gatsby-plugin-robots-txt",
       options: {
-        host: "https://pjj186.github.io",
-        sitemap: "https://pjj186.github.io/sitemap.xml",
+        host: "https://pjj186.github.io/",
+        sitemap: "https://pjj186.github.io/sitemap-index.xml",
         policy: [{ userAgent: "*", allow: "/" }],
       },
     },
