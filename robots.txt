@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Sitemap: https://pjj186.github.io/sitemap-index.xml
+Host: https://pjj186.github.io
