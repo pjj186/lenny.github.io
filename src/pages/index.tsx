@@ -1,16 +1,69 @@
 import * as React from "react"
 import { Link, graphql } from "gatsby"
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
+import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react"
 
 import Bio from "@/components/bio"
 import Layout from "@/components/layout"
 import Seo from "@/components/seo"
 import CategoryTag from "@/components/category-tag"
 import CategoryFilter from "@/components/category-filter"
+import { Button } from "@/components/ui/button"
 
 const BlogIndex = ({ data, location }: { data: any; location: any }) => {
   const siteTitle = data.site.siteMetadata?.title || `Title`
   const posts = data.allMarkdownRemark.nodes
+
+  // 페이지네이션 상태
+  const [currentPage, setCurrentPage] = React.useState(1)
+  const postsPerPage = 5 // 페이지당 포스트 수
+  const totalPages = Math.ceil(posts.length / postsPerPage)
+
+  // 현재 페이지에 해당하는 포스트만 가져오기
+  const startIndex = (currentPage - 1) * postsPerPage
+  const endIndex = startIndex + postsPerPage
+  const currentPosts = posts.slice(startIndex, endIndex)
+
+  // 페이지 번호 생성 로직 (스마트한 표시)
+  const getPageNumbers = () => {
+    const pages = []
+    const delta = 2 // 현재 페이지 앞뒤로 보여줄 페이지 수
+
+    // 첫 페이지는 항상 표시
+    pages.push(1)
+
+    if (totalPages <= 7) {
+      // 페이지가 7개 이하면 모두 표시
+      for (let i = 2; i <= totalPages; i++) {
+        pages.push(i)
+      }
+    } else {
+      if (currentPage <= 4) {
+        // 시작 부분에 있을 때
+        for (let i = 2; i <= 5; i++) {
+          pages.push(i)
+        }
+        pages.push("...")
+        pages.push(totalPages)
+      } else if (currentPage >= totalPages - 3) {
+        // 끝 부분에 있을 때
+        pages.push("...")
+        for (let i = totalPages - 4; i <= totalPages; i++) {
+          pages.push(i)
+        }
+      } else {
+        // 중간에 있을 때
+        pages.push("...")
+        for (let i = currentPage - delta; i <= currentPage + delta; i++) {
+          pages.push(i)
+        }
+        pages.push("...")
+        pages.push(totalPages)
+      }
+    }
+
+    return pages
+  }
 
   if (posts.length === 0) {
     return (
@@ -33,7 +86,7 @@ const BlogIndex = ({ data, location }: { data: any; location: any }) => {
       <CategoryFilter />
 
       <div className="space-y-8">
-        {posts.map((post: any) => {
+        {currentPosts.map((post: any) => {
           const title = post.frontmatter.title || post.fields.slug
           const thumbnail = getImage(post.frontmatter.thumbnail)
 
@@ -118,6 +171,66 @@ const BlogIndex = ({ data, location }: { data: any; location: any }) => {
           )
         })}
       </div>
+
+      {/* 페이지네이션 */}
+      {totalPages > 1 && (
+        <nav className="flex items-center justify-center gap-1 mt-12">
+          {/* 이전 페이지 */}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setCurrentPage(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="gap-1 pl-2.5"
+          >
+            <ChevronLeft className="h-4 w-4" />
+            이전
+          </Button>
+
+          {/* 페이지 번호들 */}
+          <div className="flex items-center gap-1">
+            {getPageNumbers().map((pageNum, index) => {
+              if (pageNum === "...") {
+                return (
+                  <div
+                    key={`ellipsis-${index}`}
+                    className="flex h-8 w-8 items-center justify-center"
+                  >
+                    <MoreHorizontal className="h-4 w-4 text-muted-foreground" />
+                  </div>
+                )
+              }
+
+              const isCurrentPage = pageNum === currentPage
+
+              return (
+                <Button
+                  key={pageNum}
+                  variant={isCurrentPage ? "default" : "outline"}
+                  size="sm"
+                  className="h-8 w-8 p-0"
+                  onClick={() => setCurrentPage(pageNum as number)}
+                  disabled={isCurrentPage}
+                >
+                  {pageNum}
+                </Button>
+              )
+            })}
+          </div>
+
+          {/* 다음 페이지 */}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setCurrentPage(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="gap-1 pr-2.5"
+          >
+            다음
+            <ChevronRight className="h-4 w-4" />
+          </Button>
+        </nav>
+      )}
     </Layout>
   )
 }
