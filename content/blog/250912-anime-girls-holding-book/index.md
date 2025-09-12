@@ -7,7 +7,7 @@ category: "etc"
 tags: ["anime"]
 ---
 
-# 개발자 애니프사 사이트 추천
+# 님들이 좋아하는 애니프사 사이트 추천 (나도좋아함 ㅋㅋ)
 
 사이트 이름은 Anime Girls Holding Programming books 라는 사이트구요.
 
