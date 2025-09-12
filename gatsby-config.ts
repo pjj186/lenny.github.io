@@ -35,28 +35,26 @@ module.exports = {
       resolve: "gatsby-plugin-sitemap",
       options: {
         query: `
-          {
-            site {
-              siteMetadata {
-                siteUrl
+            {
+              site {
+                siteMetadata {
+                  siteUrl
+                }
+              }
+              allSitePage {
+                nodes {
+                  path
+                }
               }
             }
-            allSitePage {
-              nodes {
-                path
-              }
-            }
-          }
-        `,
+          `,
         resolvePages: ({ allSitePage }: { allSitePage: any }) =>
           allSitePage.nodes,
-        serialize: ({ site, allSitePage }: { site: any; allSitePage: any }) => {
-          return allSitePage.nodes.map((node: any) => ({
-            url: `${site.siteMetadata.siteUrl}${node.path}`,
-            lastmod: new Date().toISOString(),
-            priority: node.path === "/" ? 1.0 : 0.8,
-          }))
-        },
+        serialize: ({ site, path }: { site: any; path: string }) => ({
+          url: `${site.siteMetadata.siteUrl}${path}`,
+          lastmod: new Date().toISOString(),
+          priority: path === "/" ? 1.0 : 0.8,
+        }),
         createLinkInHead: true,
       },
     },
