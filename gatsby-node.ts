@@ -256,6 +256,7 @@ exports.createSchemaCustomization = ({
       date: Date @dateformat
       category: String
       tags: [String]
+      thumbnail: File @fileByRelativePath
     }
 
     type Fields {
