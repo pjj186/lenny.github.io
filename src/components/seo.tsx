@@ -71,6 +71,10 @@ const Seo = ({
       <meta name="twitter:image" content={metaImage} />
       <meta name="robots" content="index, follow" />
       <meta name="googlebot" content="index, follow" />
+      <meta
+        name="google-site-verification"
+        content="rtF3Lsw2hDpAO6oFI7TZMqjCYbxwqaVXnJqjf7yocjQ"
+      />
       <link rel="canonical" href={fullUrl} />
       {children}
     </>
