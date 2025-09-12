@@ -31,7 +31,29 @@ module.exports = {
     image: `/icons/icon-512x512.png`,
   },
   plugins: [
-    `gatsby-plugin-sitemap`,
+    {
+      resolve: "gatsby-plugin-sitemap",
+      options: {
+        query: `
+          {
+            site {
+              siteMetadata {
+                siteUrl
+              }
+            }
+            allSitePage {
+              nodes {
+                path
+              }
+            }
+          }
+        `,
+        resolvePages: ({ allSitePage }: { allSitePage: any }) =>
+          allSitePage.nodes,
+        serialize: ({ path }: { path: any }) => ({ url: path }),
+        createLinkInHead: true,
+      },
+    },
     `gatsby-plugin-image`,
     `gatsby-plugin-sharp`,
     `gatsby-transformer-sharp`,
