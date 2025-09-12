@@ -50,7 +50,13 @@ module.exports = {
         `,
         resolvePages: ({ allSitePage }: { allSitePage: any }) =>
           allSitePage.nodes,
-        serialize: ({ path }: { path: any }) => ({ url: path }),
+        serialize: ({ site, allSitePage }: { site: any; allSitePage: any }) => {
+          return allSitePage.nodes.map((node: any) => ({
+            url: `${site.siteMetadata.siteUrl}${node.path}`,
+            lastmod: new Date().toISOString(),
+            priority: node.path === "/" ? 1.0 : 0.8,
+          }))
+        },
         createLinkInHead: true,
       },
     },
