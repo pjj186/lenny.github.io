@@ -11,6 +11,8 @@ tags: ["anime"]
 
 사이트 이름은 Anime Girls Holding Programming books 라는 사이트구요.
 
+미소녀 애니캐릭들이 프로그래밍 서적을 들고 있는 짤들을 보여주는 사이트입니다.
+
 ![](./site-image.png)
 
 맘에 드는거 가져다가 프사 또는 배경사진으로 사용하시면 참 좋을것 같습니다.
