@@ -1,92 +1,92 @@
-import React, { useEffect, useState, useCallback, useRef } from "react"
-import { ChevronRight, List } from "lucide-react"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Separator } from "@/components/ui/separator"
+import React, { useEffect, useState, useCallback, useRef } from "react";
+import { ChevronRight, List } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible"
-import { Button } from "@/components/ui/button"
+} from "@/components/ui/collapsible";
+import { Button } from "@/components/ui/button";
 
 interface TableOfContentsProps {
-  tableOfContents: string
-  className?: string
+  tableOfContents: string;
+  className?: string;
 }
 
 const TableOfContents: React.FC<TableOfContentsProps> = ({
   tableOfContents,
   className = "",
 }) => {
-  const [activeId, setActiveId] = useState<string>("")
-  const [isOpen, setIsOpen] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
-  const tocRef = useRef<HTMLDivElement>(null)
+  const [activeId, setActiveId] = useState<string>("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const tocRef = useRef<HTMLDivElement>(null);
 
   // 목차 링크 클릭 이벤트 처리
   const handleTocClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
-      const target = e.target as HTMLElement
-      const link = target.closest('a[href^="#"]') as HTMLAnchorElement
+      const target = e.target as HTMLElement;
+      const link = target.closest('a[href^="#"]') as HTMLAnchorElement;
 
       if (link) {
-        e.preventDefault()
-        const href = link.getAttribute("href")
+        e.preventDefault();
+        const href = link.getAttribute("href");
         if (href) {
-          const id = decodeURIComponent(href.replace("#", ""))
-          const element = document.getElementById(id)
+          const id = decodeURIComponent(href.replace("#", ""));
+          const element = document.getElementById(id);
 
           if (element) {
-            const offsetTop = element.offsetTop - 100
+            const offsetTop = element.offsetTop - 100;
             window.scrollTo({
               top: offsetTop,
               behavior: "smooth",
-            })
+            });
           }
 
           // 모바일에서는 클릭 후 접기
           if (isMobile) {
-            setIsOpen(false)
+            setIsOpen(false);
           }
         }
       }
     },
     [isMobile]
-  )
+  );
 
   // 화면 크기 감지
   useEffect(() => {
     const checkIsMobile = () => {
-      setIsMobile(window.innerWidth < 768)
+      setIsMobile(window.innerWidth < 768);
       // 데스크톱에서는 항상 열어두기
       if (window.innerWidth >= 768) {
-        setIsOpen(true)
+        setIsOpen(true);
       }
-    }
+    };
 
-    checkIsMobile()
-    window.addEventListener("resize", checkIsMobile)
-    return () => window.removeEventListener("resize", checkIsMobile)
-  }, [])
+    checkIsMobile();
+    window.addEventListener("resize", checkIsMobile);
+    return () => window.removeEventListener("resize", checkIsMobile);
+  }, []);
 
   // IntersectionObserver를 이용한 현재 섹션 하이라이트
   useEffect(() => {
     if (!tableOfContents || !tableOfContents.trim()) {
-      return
+      return;
     }
 
     // IntersectionObserver 참조 저장
-    let observer: IntersectionObserver | null = null
+    let observer: IntersectionObserver | null = null;
 
     // DOM이 완전히 로드된 후 실행하기 위한 약간의 지연
     const timer = setTimeout(() => {
       // 모든 헤딩 요소를 미리 찾기
       const headings = Array.from(
         document.querySelectorAll("h1, h2, h3, h4, h5, h6")
-      )
+      );
 
       if (!headings.length) {
-        return
+        return;
       }
 
       // 매우 간단한 IntersectionObserver 설정
@@ -95,11 +95,13 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({
           // 현재 보이는 헤딩들
           const visibleHeadings = entries
             .filter(entry => entry.isIntersecting)
-            .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
+            .sort(
+              (a, b) => a.boundingClientRect.top - b.boundingClientRect.top
+            );
 
           if (visibleHeadings.length > 0) {
-            const activeHeading = visibleHeadings[0]!.target as HTMLElement
-            setActiveId(activeHeading.id)
+            const activeHeading = visibleHeadings[0]!.target as HTMLElement;
+            setActiveId(activeHeading.id);
           }
         },
         {
@@ -107,49 +109,49 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({
           rootMargin: "-100px 0px -50% 0px",
           threshold: 0.1,
         }
-      )
+      );
 
       // 모든 헤딩 관찰
       headings.forEach(heading => {
         if (heading.id) {
-          observer?.observe(heading)
+          observer?.observe(heading);
         }
-      })
-    }, 100) // 100ms 지연
+      });
+    }, 100); // 100ms 지연
 
     return () => {
-      clearTimeout(timer)
+      clearTimeout(timer);
       if (observer) {
-        observer.disconnect()
+        observer.disconnect();
       }
-    }
-  }, [tableOfContents])
+    };
+  }, [tableOfContents]);
 
   // 활성 링크 스타일 업데이트
   useEffect(() => {
-    if (!tocRef.current) return
+    if (!tocRef.current) return;
 
-    const links = tocRef.current.querySelectorAll('a[href^="#"]')
+    const links = tocRef.current.querySelectorAll('a[href^="#"]');
 
     links.forEach(link => {
-      const href = link.getAttribute("href")
+      const href = link.getAttribute("href");
       if (href) {
-        const id = decodeURIComponent(href.replace("#", ""))
+        const id = decodeURIComponent(href.replace("#", ""));
         if (id === activeId) {
-          link.classList.add("toc-active")
+          link.classList.add("toc-active");
         } else {
-          link.classList.remove("toc-active")
+          link.classList.remove("toc-active");
         }
       }
-    })
-  }, [activeId])
+    });
+  }, [activeId]);
 
   if (!tableOfContents || !tableOfContents.trim()) {
-    return null
+    return null;
   }
 
   const TocContent = () => (
-    <ScrollArea className="h-full max-h-[60vh] pr-3">
+    <ScrollArea className="h-full  pr-3">
       <div
         ref={tocRef}
         className="toc-content"
@@ -157,7 +159,7 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({
         onClick={handleTocClick}
       />
     </ScrollArea>
-  )
+  );
 
   return (
     <div className={`sticky top-24 ${className}`}>
@@ -197,7 +199,7 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default TableOfContents
+export default TableOfContents;
