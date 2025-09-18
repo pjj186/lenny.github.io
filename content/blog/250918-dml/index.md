@@ -1,7 +1,7 @@
 ---
 title: "DML (Data Manipulation Language)"
 description: "Data Manipulation Language?"
-date: "2025-09-15T11:03:42"
+date: "2025-09-18T23:27:00"
 thumbnail: "./thumbnail.png"
 category: "Database"
 tags: ["SQL", "SQLite"]
